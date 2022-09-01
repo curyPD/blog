@@ -13,6 +13,7 @@ function SearchBar() {
       <button
         type="button"
         className="absolute top-1/2 right-0 flex h-full w-8 -translate-y-1/2 items-center justify-center rounded text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2"
+        aria-label="Clear input"
       >
         <HiOutlineX />
       </button>
