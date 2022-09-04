@@ -37,7 +37,7 @@ function AuthProvider({ children }) {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
-  function LogOut() {
+  function logOut() {
     signOut(auth);
   }
 
@@ -55,7 +55,7 @@ function AuthProvider({ children }) {
     curUser,
     signUp,
     logIn,
-    LogOut,
+    logOut,
     updateUserName,
     resetPassword,
   };

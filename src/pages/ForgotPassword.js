@@ -74,7 +74,7 @@ function ForgotPassword() {
         </div>
       </form>
       <p className="mx-auto max-w-xs text-center font-serif text-sm sm:max-w-sm">
-        <Link className="text-blue-900 hover:underline" to="/signup">
+        <Link className="text-blue-900 hover:underline" to="/login">
           Log In
         </Link>
       </p>

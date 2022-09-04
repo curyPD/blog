@@ -11,7 +11,7 @@ export default function LogIn() {
     email: "",
     password: "",
   });
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const { logIn } = useAuth();
 
   function handleChange(e) {
@@ -27,7 +27,7 @@ export default function LogIn() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      setError(null);
+      setError("");
       await logIn(inputData.email, inputData.password);
     } catch (err) {
       setError("Failed to log in");

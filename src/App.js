@@ -9,6 +9,7 @@ import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/Dashboard";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="signup" element={<SignUp />} />
           <Route path="login" element={<LogIn />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
