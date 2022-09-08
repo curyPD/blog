@@ -9,6 +9,8 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 
+import { useFirestore } from "../contexts/FirestoreContext";
+
 const storage = getStorage(app);
 
 function Dashboard() {
@@ -18,6 +20,10 @@ function Dashboard() {
   const [file, setFile] = useState(null);
   const [imageMessage, setImageMessage] = useState(null);
   const [fileUrl, setFileUrl] = useState("");
+
+  const editorRef = useRef(null);
+
+  const { addDocument } = useFirestore();
 
   function handleFileSelect(e) {
     const img = e.target.files[0];
@@ -64,12 +70,16 @@ function Dashboard() {
     );
   }
 
-  const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
     }
   };
+
+  function upload() {
+    const content = editorRef.current.getContent();
+    addDocument(title, preface, fileUrl, content);
+  }
 
   return (
     <>
@@ -224,6 +234,7 @@ function Dashboard() {
             }}
           />
           <button onClick={log}>Log editor content</button>
+          <button onClick={upload}>Upload</button>
         </section>
       </section>
     </>

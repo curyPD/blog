@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 import { app } from "../firebase";
 
 const db = getFirestore(app);
 
-export const FirestoreContext = React.createContext();
+const FirestoreContext = React.createContext();
+
+export const useFirestore = function () {
+  return useContext(FirestoreContext);
+};
 
 function FirestoreProvider({ children }) {
   const value = {
