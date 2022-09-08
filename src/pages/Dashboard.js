@@ -25,6 +25,10 @@ function Dashboard() {
     setFile(img);
   }
 
+  function handleCancelSelect() {
+    setFile(null);
+  }
+
   function handleUpload() {
     const storageRef = ref(storage, `/files/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
@@ -93,7 +97,7 @@ function Dashboard() {
         <h2 className="mb-6 text-center text-xl font-bold text-blue-900 md:mb-12 md:text-3xl">
           Write an article
         </h2>
-        <section className="lg:max-w-4-xl mx-auto mb-12 grid max-w-sm grid-cols-1 px-4 sm:max-w-lg md:max-w-3xl md:grid-cols-2 md:gap-x-6 md:gap-y-8 lg:gap-x-10">
+        <section className="mx-auto mb-12 grid max-w-sm grid-cols-1 px-4 sm:max-w-lg md:max-w-3xl md:grid-cols-2 md:gap-x-6 md:gap-y-8 lg:max-w-4xl lg:gap-x-10">
           <div className="mb-4 md:mb-0">
             <label
               htmlFor="title"
@@ -126,22 +130,32 @@ function Dashboard() {
               onChange={e => setPreface(e.target.value)}
             />
           </div>
-          <h5 className="col-span-full row-start-3 row-end-4 mb-2 font-serif text-sm text-gray-700 md:row-start-2 md:row-end-3 md:-mb-2 md:text-base">
+          <h5 className="col-span-full row-start-3 row-end-4 mb-2 font-serif text-sm text-gray-700 md:row-start-2 md:row-end-3 md:-mb-4 md:text-base">
             Add an image
           </h5>
           <div className="mb-8 md:mb-0">
-            <label
-              htmlFor="file-input"
-              className=" inline-block cursor-pointer rounded-md bg-blue-900 py-2 px-3 font-serif text-xs font-medium text-white transition duration-200 hover:bg-blue-700 sm:px-5 md:text-base"
-            >
-              Select file
-            </label>
-            <input
-              type="file"
-              className="hidden"
-              id="file-input"
-              onChange={handleFileSelect}
-            />
+            <div className="flex items-center gap-8">
+              <label
+                htmlFor="file-input"
+                className=" inline-block cursor-pointer rounded-md bg-blue-900 py-2 px-3 font-serif text-xs font-medium text-white transition duration-200 hover:bg-blue-700 sm:px-5 md:text-base"
+              >
+                Select file
+              </label>
+              <input
+                type="file"
+                className="hidden"
+                id="file-input"
+                onChange={handleFileSelect}
+              />
+              {file && (
+                <button
+                  onClick={handleCancelSelect}
+                  className="font-serif text-sm text-blue-900 transition-colors duration-200 hover:text-blue-700"
+                >
+                  Cancel select
+                </button>
+              )}
+            </div>
             {file && (
               <div className="mt-5 rounded-md border border-gray-400 py-2 pl-3 pr-2 font-serif text-sm text-gray-600">
                 <p className="truncate font-serif text-sm text-gray-600">
@@ -155,7 +169,9 @@ function Dashboard() {
               <button
                 disabled={!file}
                 onClick={handleUpload}
-                className="rounded-md bg-blue-900 py-2 px-3 font-serif text-xs font-medium text-white transition duration-200 hover:bg-blue-700 sm:px-5 md:text-base"
+                className={`rounded-md bg-blue-900 py-2 px-3 font-serif text-xs font-medium text-white transition duration-200 hover:bg-blue-${
+                  file ? "700" : "900"
+                } ${file ? "opacity-100" : "opacity-70"} sm:px-5 md:text-base`}
               >
                 Upload
               </button>
@@ -170,7 +186,7 @@ function Dashboard() {
             )}
           </div>
         </section>
-        <section className="mx-auto max-w-sm px-4 sm:max-w-lg md:max-w-2xl lg:max-w-4xl lg:px-0">
+        <section className="mx-auto max-w-sm px-4 sm:max-w-lg md:max-w-3xl lg:max-w-4xl lg:px-0">
           <Editor
             apiKey={process.env.REACT_APP_TINY_API_KEY}
             onInit={(evt, editor) => (editorRef.current = editor)}

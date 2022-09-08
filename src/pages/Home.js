@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { HiOutlineChevronDown } from "react-icons/hi";
 import RecentCard from "../components/RecentCard";
 import ArticleCard from "../components/ArticleCard";
+import { FirestoreContext } from "../contexts/FirestoreContext";
 
 function Home() {
+  const dbData = useContext(FirestoreContext);
+  useEffect(() => {
+    dbData.addDocument(
+      "Title",
+      "Preface",
+      "url of the image",
+      "content. mmmm👅"
+    );
+  }, []);
+
   return (
     <>
       {/* HERO SECTION */}
