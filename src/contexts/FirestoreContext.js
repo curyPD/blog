@@ -1,5 +1,11 @@
-import React, { useContext } from "react";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import React, { useState, useContext } from "react";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  Timestamp,
+} from "firebase/firestore";
 
 import { app } from "../firebase";
 
@@ -12,8 +18,11 @@ export const useFirestore = function () {
 };
 
 function FirestoreProvider({ children }) {
+  // const [articles, setArticles] = useState([]);
+
   const value = {
     addDocument,
+    getData,
   };
 
   async function addDocument(title, preface, imageUrl, content) {
@@ -23,11 +32,16 @@ function FirestoreProvider({ children }) {
         preface,
         imageUrl,
         content,
+        date: Timestamp.fromDate(new Date()),
       });
       console.log(`Document written with ID: ${docRef.id}`);
     } catch (err) {
       console.error(err);
     }
+  }
+
+  function getData() {
+    return getDocs(collection(db, "articles"));
   }
 
   return (

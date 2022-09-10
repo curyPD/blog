@@ -1,12 +1,11 @@
 import React from "react";
-import image from "../img/aaron-burden-QJDzYT_K8Xg-unsplash.jpg";
 import { HiOutlineClock } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
-function ArticleCard({ data }) {
+function ArticleCard({ data, id }) {
   return (
     <article className="overflow-hidden rounded-md bg-white shadow-lg">
-      <Link to="/">
+      <Link to={`/articles/${id}`}>
         <div className="relative overflow-hidden">
           <img
             src={data.imageUrl}
@@ -31,7 +30,7 @@ function ArticleCard({ data }) {
             </p>
           </div>
           <Link
-            to="/"
+            to={`/articles/${id}`}
             className="ml-auto inline-block rounded bg-blue-900 py-2 px-6 font-serif text-sm text-white transition-colors duration-200 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-offset-1 xl:py-1  xl:px-5 "
           >
             Read

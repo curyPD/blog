@@ -9,7 +9,7 @@ function RecentCard({ data }) {
       <div className="w-32 shrink-0 overflow-hidden rounded-md">
         <img src={data.imageUrl} alt="" className="h-24 w-full object-cover" />
       </div>
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-1 flex-col justify-between">
         <h4 className="mt-1 cursor-pointer font-sans text-base font-semibold leading-tight text-gray-800 transition-colors duration-200 hover:text-blue-700 md:text-lg md:leading-snug">
           <Link to="/">{data.title}</Link>
         </h4>
