@@ -13,8 +13,8 @@ function Navbar() {
           <NavLink
             className={({ isActive }) =>
               isActive
-                ? "p-2 font-serif text-base  text-blue-900"
-                : "p-2 font-serif text-base  text-gray-600"
+                ? "p-2 font-sans text-base  text-blue-900"
+                : "p-2 font-sans text-base  text-gray-600"
             }
             to="/"
           >
@@ -25,8 +25,8 @@ function Navbar() {
           <NavLink
             className={({ isActive }) =>
               isActive
-                ? "p-2 font-serif text-base  text-blue-900"
-                : "p-2 font-serif text-base  text-gray-600"
+                ? "p-2 font-sans text-base  text-blue-900"
+                : "p-2 font-sans text-base  text-gray-600"
             }
             to="/dashboard"
           >
@@ -36,7 +36,7 @@ function Navbar() {
         {curUser ? (
           <li>
             <button
-              className="p-2 font-serif text-base text-gray-600"
+              className="p-2 font-sans text-base text-gray-600"
               onClick={logOut}
             >
               Log Out
@@ -47,8 +47,8 @@ function Navbar() {
             <NavLink
               className={({ isActive }) =>
                 isActive
-                  ? "p-2 font-serif text-base text-blue-900"
-                  : "p-2 font-serif text-base text-gray-600"
+                  ? "p-2 font-sans text-base text-blue-900"
+                  : "p-2 font-sans text-base text-gray-600"
               }
               to="/login"
             >

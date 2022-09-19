@@ -18,11 +18,12 @@ export const useFirestore = function () {
 };
 
 function FirestoreProvider({ children }) {
-  // const [articles, setArticles] = useState([]);
+  const [articles, setArticles] = useState([]);
 
   const value = {
     addDocument,
     getData,
+    articles,
   };
 
   async function addDocument(title, preface, imageUrl, content) {
@@ -40,8 +41,10 @@ function FirestoreProvider({ children }) {
     }
   }
 
-  function getData() {
-    return getDocs(collection(db, "articles"));
+  async function getData() {
+    const querySnapshot = await getDocs(collection(db, "articles"));
+    const docs = querySnapshot.docs;
+    setArticles(docs);
   }
 
   return (

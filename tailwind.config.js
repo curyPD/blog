@@ -6,10 +6,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Merriweather", ...defaultTheme.fontFamily.sans],
-        serif: ["Roboto", ...defaultTheme.fontFamily.serif],
+        sans: ["Roboto", ...defaultTheme.fontFamily.sans],
+        serif: ["Merriweather", ...defaultTheme.fontFamily.serif],
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };

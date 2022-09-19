@@ -8,7 +8,7 @@ function SearchBar() {
       <input
         type="text"
         placeholder="Search for posts"
-        className="block h-full w-full rounded bg-transparent px-10 font-serif text-sm text-gray-700 placeholder:font-serif placeholder:text-sm  placeholder:text-gray-400 focus:outline-none focus:ring focus:ring-gray-300"
+        className="block h-full w-full rounded bg-transparent px-10 font-sans text-sm text-gray-700 placeholder:font-sans placeholder:text-sm  placeholder:text-gray-400 focus:outline-none focus:ring focus:ring-gray-300"
       />
       <button
         type="button"
