@@ -13,8 +13,8 @@ function Navbar() {
           <NavLink
             className={({ isActive }) =>
               isActive
-                ? "p-2 font-sans text-base  text-blue-900"
-                : "p-2 font-sans text-base  text-gray-600"
+                ? "p-2 font-sans text-base text-blue-900"
+                : "p-2 font-sans text-base text-gray-600"
             }
             to="/"
           >
@@ -25,8 +25,8 @@ function Navbar() {
           <NavLink
             className={({ isActive }) =>
               isActive
-                ? "p-2 font-sans text-base  text-blue-900"
-                : "p-2 font-sans text-base  text-gray-600"
+                ? "p-2 font-sans text-base text-blue-900"
+                : "p-2 font-sans text-base text-gray-600"
             }
             to="/dashboard"
           >

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Routes, Route } from "react-router-dom";
+
+import { useFirestore } from "./contexts/FirestoreContext";
 
 import AuthProvider from "./contexts/AuthContext";
 import FirestoreProvider from "./contexts/FirestoreContext";

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { HiOutlineChevronDown } from "react-icons/hi";
 // import RecentCard from "../components/RecentCard";
 import ArticleCard from "../components/ArticleCard";
@@ -7,10 +7,15 @@ import { useFirestore } from "../contexts/FirestoreContext";
 
 function Home() {
   const { getData, articles } = useFirestore();
+  const postsRef = useRef(null);
 
   useEffect(() => {
     getData();
   }, []);
+
+  function scrollToPosts() {
+    postsRef.current.scrollIntoView({ behavior: "smooth" });
+  }
 
   const articleCards = articles.map(doc => {
     if (doc.exists()) {
@@ -32,7 +37,10 @@ function Home() {
               Hi, my name is Roman, and here I share my language learning
               journey. If you like learning new things, keep on reading.
             </p>
-            <button className="group flex items-center gap-2 rounded font-sans text-lg font-medium text-blue-900 focus:outline-none focus:ring-2">
+            <button
+              onClick={scrollToPosts}
+              className="group flex items-center gap-2 rounded font-sans text-lg font-medium text-blue-900 focus:outline-none focus:ring-2"
+            >
               See all articles
               <HiOutlineChevronDown className="transition-transform group-hover:translate-y-1" />
             </button>
@@ -49,7 +57,10 @@ function Home() {
         </div>
       </section>
 
-      <section className="bg-white py-12 px-3 pb-16 md:py-14 md:px-6 md:pb-24">
+      <section
+        ref={postsRef}
+        className="bg-white py-12 px-3 pb-16 md:py-14 md:px-6 md:pb-24"
+      >
         <h2 className="mb-10 text-center font-serif text-2xl font-bold text-blue-900 md:mb-12 md:text-3xl">
           Articles
         </h2>
