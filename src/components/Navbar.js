@@ -21,18 +21,20 @@ function Navbar() {
             Home
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            className={({ isActive }) =>
-              isActive
-                ? "p-2 font-sans text-base text-blue-900"
-                : "p-2 font-sans text-base text-gray-600"
-            }
-            to="/dashboard"
-          >
-            Dashboard
-          </NavLink>
-        </li>
+        {curUser && curUser.uid === "FHkXeKqFiNX6CEMoGInSoMiYelk2" && (
+          <li>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "p-2 font-sans text-base text-blue-900"
+                  : "p-2 font-sans text-base text-gray-600"
+              }
+              to="/dashboard"
+            >
+              Dashboard
+            </NavLink>
+          </li>
+        )}
         {curUser ? (
           <li>
             <button

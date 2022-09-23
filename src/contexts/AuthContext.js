@@ -8,7 +8,7 @@ import {
   updateProfile,
   sendPasswordResetEmail,
 } from "firebase/auth";
-
+import { useNavigate } from "react-router-dom";
 import { app } from "../firebase";
 
 const auth = getAuth(app);
@@ -21,7 +21,7 @@ export function useAuth() {
 
 function AuthProvider({ children }) {
   const [curUser, setCurUser] = useState();
-
+  const navigate = useNavigate();
   useEffect(() => {
     onAuthStateChanged(auth, user => {
       setCurUser(user);
@@ -39,6 +39,7 @@ function AuthProvider({ children }) {
 
   function logOut() {
     signOut(auth);
+    navigate("/");
   }
 
   function updateUserName(user, name) {

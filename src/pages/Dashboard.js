@@ -20,6 +20,7 @@ function Dashboard() {
   const [file, setFile] = useState(null);
   const [imageMessage, setImageMessage] = useState(null);
   const [fileUrl, setFileUrl] = useState("");
+  const [uploadMessage, setUploadMessage] = useState("");
 
   const editorRef = useRef(null);
 
@@ -79,6 +80,13 @@ function Dashboard() {
   function upload() {
     const content = editorRef.current.getContent();
     addDocument(title, preface, fileUrl, content);
+    setUploadMessage("Post added successfully!");
+    setTitle("");
+    setPreface("");
+    setImageMessage("");
+    setFileUrl("");
+    setFile(null);
+    editorRef.current.resetContent();
   }
 
   return (
@@ -233,9 +241,26 @@ function Dashboard() {
                 "body { font-family:Roboto,sans-serif; font-size:16px }",
             }}
           />
-          <button onClick={log}>Log editor content</button>
-          <button onClick={upload}>Upload</button>
+          <div className="mt-5 mb-3 flex flex-wrap items-center gap-3">
+            <button
+              onClick={log}
+              className="rounded-md bg-blue-900 py-1 px-3 font-sans text-sm font-medium text-white transition duration-200 hover:bg-blue-700"
+            >
+              Log editor content
+            </button>
+            <button
+              onClick={upload}
+              className="rounded-md bg-blue-900 py-1 px-3 font-sans text-sm font-medium text-white transition duration-200 hover:bg-blue-700"
+            >
+              Upload
+            </button>
+          </div>
         </section>
+        {uploadMessage && (
+          <p className="mx-auto mt-7 max-w-sm rounded-sm bg-green-100 py-3 px-2 text-center text-sm font-medium text-green-900 sm:max-w-lg md:max-w-3xl md:text-base lg:max-w-4xl">
+            {uploadMessage}
+          </p>
+        )}
       </section>
     </>
   );

@@ -41,7 +41,7 @@ function BlogPost() {
       </div>
       <section
         dangerouslySetInnerHTML={{ __html: article.content }}
-        className="prose prose-sm prose-gray mx-auto w-5/6 max-w-lg prose-headings:font-serif prose-headings:text-blue-900 prose-p:text-gray-600 sm:px-6 md:prose-base md:max-w-screen-sm lg:prose-xl lg:w-auto lg:max-w-screen-md lg:px-8"
+        className="prose prose-sm prose-gray mx-auto w-5/6 max-w-lg sm:px-6 md:prose-base md:max-w-screen-sm lg:prose-lg lg:w-auto lg:max-w-screen-md lg:px-8"
       ></section>
       <div className="mx-auto mb-5 w-5/6 max-w-screen-sm sm:px-6 lg:w-auto lg:max-w-screen-md lg:px-8">
         <div className="mt-6 h-px w-52 bg-blue-300 md:w-72">&nbsp;</div>

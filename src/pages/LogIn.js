@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../contexts/AuthContext";
 
@@ -13,6 +13,7 @@ export default function LogIn() {
   });
   const [error, setError] = useState("");
   const { logIn } = useAuth();
+  const navigate = useNavigate();
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -28,7 +29,12 @@ export default function LogIn() {
     e.preventDefault();
     try {
       setError("");
-      await logIn(inputData.email, inputData.password);
+      const userCredential = await logIn(inputData.email, inputData.password);
+      if (userCredential.user.uid === "FHkXeKqFiNX6CEMoGInSoMiYelk2") {
+        navigate("/dashboard");
+        return;
+      }
+      if (userCredential.user) navigate("/");
     } catch (err) {
       setError("Failed to log in");
       console.error(err.message);

@@ -14,6 +14,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
 import BlogPost from "./pages/BlogPost";
+import ProtectedRoute from "./pages/ProtectedRoute";
 
 export default function App() {
   return (
@@ -25,7 +26,14 @@ export default function App() {
             <Route path="signup" element={<SignUp />} />
             <Route path="login" element={<LogIn />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
-            <Route path="dashboard" element={<Dashboard />} />
+            <Route
+              path="dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
             <Route path="articles/:articleId" element={<BlogPost />} />
             <Route path="*" element={<NotFound />} />
           </Route>
