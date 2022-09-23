@@ -22,7 +22,7 @@ function Home() {
       const data = doc.data();
       const id = doc.id;
       return <ArticleCard key={id} id={id} data={data} />;
-    } else return;
+    }
   });
 
   return (

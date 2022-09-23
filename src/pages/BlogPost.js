@@ -31,11 +31,7 @@ function BlogPost() {
               {formattedDate}
             </p>
           )}
-          <img
-            src={article.imageUrl}
-            className="w-full"
-            alt="Image for this blog post"
-          />
+          <img src={article.imageUrl} className="w-full" alt="Car" />
         </div>
         {/* <p className="text-lg md:text-xl">{article.preface}</p> */}
       </div>
