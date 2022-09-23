@@ -11,7 +11,7 @@ function Home() {
 
   useEffect(() => {
     getData();
-  }, []);
+  });
 
   function scrollToPosts() {
     postsRef.current.scrollIntoView({ behavior: "smooth" });
@@ -23,6 +23,7 @@ function Home() {
       const id = doc.id;
       return <ArticleCard key={id} id={id} data={data} />;
     }
+    return null;
   });
 
   return (
