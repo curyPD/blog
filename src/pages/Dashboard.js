@@ -9,7 +9,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 
-import { useFirestore } from "../contexts/FirestoreContext";
+// import { useFirestore } from "../contexts/FirestoreContext";
 
 const storage = getStorage(app);
 
@@ -24,7 +24,7 @@ function Dashboard() {
 
   const editorRef = useRef(null);
 
-  const { addDocument } = useFirestore();
+  // const { addDocument } = useFirestore();
 
   function handleFileSelect(e) {
     const img = e.target.files[0];
@@ -79,7 +79,7 @@ function Dashboard() {
 
   function upload() {
     const content = editorRef.current.getContent();
-    addDocument(title, preface, fileUrl, content);
+    // addDocument(title, preface, fileUrl, content);
     setUploadMessage("Post added successfully!");
     setTitle("");
     setPreface("");

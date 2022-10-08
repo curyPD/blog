@@ -1,23 +1,22 @@
 import React, { useRef, useEffect } from "react";
 import { HiOutlineChevronDown } from "react-icons/hi";
-// import RecentCard from "../components/RecentCard";
 import ArticleCard from "../components/ArticleCard";
 
-import { useFirestore } from "../contexts/FirestoreContext";
+// import { useFirestore } from "../contexts/FirestoreContext";
 
 function Home() {
-  const { getData, articles } = useFirestore();
+  // const { getData, articles } = useFirestore();
   const postsRef = useRef(null);
 
-  useEffect(() => {
-    getData();
-  });
+  // useEffect(() => {
+  //   getData();
+  // });
 
   function scrollToPosts() {
     postsRef.current.scrollIntoView({ behavior: "smooth" });
   }
 
-  const articleCards = articles.map(doc => {
+  const articleCards = articles?.map(doc => {
     if (doc.exists()) {
       const data = doc.data();
       const id = doc.id;
@@ -46,15 +45,6 @@ function Home() {
               <HiOutlineChevronDown className="transition-transform group-hover:translate-y-1" />
             </button>
           </div>
-
-          {/* {articles.length !== 0 && (
-            <section className="hidden shrink-0 sm:block">
-              <h3 className="mb-8 text-xl font-bold text-blue-900 md:text-2xl">
-                Recent Posts
-              </h3>
-              {recentCards}
-            </section>
-          )} */}
         </div>
       </section>
 

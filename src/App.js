@@ -32,7 +32,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="articles/:articleId" element={<BlogPost />} />
+        {/* <Route path="articles/:articleId" element={<BlogPost />} /> */}
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
