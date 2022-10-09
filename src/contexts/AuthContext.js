@@ -10,6 +10,8 @@ import {
 } from "firebase/auth";
 import { app } from "../firebase";
 
+import { useNavigate } from "react-router-dom";
+
 const auth = getAuth(app);
 
 const AuthContext = React.createContext();
@@ -20,6 +22,7 @@ export function useAuth() {
 
 function AuthProvider({ children }) {
   const [curUser, setCurUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     onAuthStateChanged(auth, user => {
@@ -27,6 +30,10 @@ function AuthProvider({ children }) {
       console.log(user);
     });
   }, []);
+
+  useEffect(() => {
+    navigate("/");
+  }, [curUser]);
 
   function signUp(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -41,13 +48,15 @@ function AuthProvider({ children }) {
   }
 
   function updateUserName(user, name) {
-    updateProfile(user, {
+    return updateProfile(user, {
       displayName: name,
     });
   }
 
   function resetPassword(email) {
-    sendPasswordResetEmail(auth, email);
+    return sendPasswordResetEmail(auth, email);
+    // TODO:
+    // When deployed, pass the continue URL parameter to the function. Url probably should lead to Log In page.
   }
 
   const value = {

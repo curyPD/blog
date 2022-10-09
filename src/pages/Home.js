@@ -16,14 +16,14 @@ function Home() {
     postsRef.current.scrollIntoView({ behavior: "smooth" });
   }
 
-  const articleCards = articles?.map(doc => {
-    if (doc.exists()) {
-      const data = doc.data();
-      const id = doc.id;
-      return <ArticleCard key={id} id={id} data={data} />;
-    }
-    return null;
-  });
+  // const articleCards = articles?.map(doc => {
+  //   if (doc.exists()) {
+  //     const data = doc.data();
+  //     const id = doc.id;
+  //     return <ArticleCard key={id} id={id} data={data} />;
+  //   }
+  //   return null;
+  // });
 
   return (
     <>
@@ -57,7 +57,7 @@ function Home() {
         </h2>
 
         <div className="mx-auto grid max-w-xs grid-cols-1 items-start gap-x-8 gap-y-12 sm:max-w-2xl sm:grid-cols-2 sm:gap-x-10 lg:max-w-5xl lg:grid-cols-3 lg:gap-y-14 lg:gap-x-12">
-          {articleCards}
+          {/* {articleCards} */}
         </div>
       </section>
     </>
