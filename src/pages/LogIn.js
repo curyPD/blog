@@ -6,6 +6,8 @@ import { useAuth } from "../contexts/AuthContext";
 
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
+import Button from "../components/Button";
+
 export default function LogIn() {
   const [inputData, setInputData] = useState({
     email: "",
@@ -92,12 +94,7 @@ export default function LogIn() {
         )}
 
         <div className={error ? "mt-4" : "mt-6"}>
-          <button
-            type="submit"
-            className="w-full rounded-sm bg-blue-700 px-5 py-1.5 font-sans text-xs font-medium text-white transition-colors hover:bg-blue-600 focus:outline-none focus:ring focus:ring-offset-1 sm:text-sm"
-          >
-            Log In
-          </button>
+          <Button type="submit" text="log in" />
         </div>
 
         <div className="mt-5">
