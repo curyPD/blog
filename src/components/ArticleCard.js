@@ -14,14 +14,14 @@ function ArticleCard() {
 
   return (
     <article className="max-w-sm overflow-hidden rounded-lg shadow-md">
-      <div className="h-40">
-        <img src={image} alt="" className="h-full w-full object-cover" />
+      <div>
+        <img src={image} alt="" className="h-40 w-full object-cover" />
       </div>
       <div className="p-5 pt-6">
         <h3 className="mb-4 font-serif text-lg font-medium leading-tight text-gray-800">
           Best Japanese Learning Resources
         </h3>
-        <p className="mb-6 text-xs text-gray-700">
+        <p className="mb-6 font-serif text-sm text-gray-600">
           Perhaps the hardest part when starting to learn a new language is
           finding the right learning material
         </p>

@@ -59,7 +59,7 @@ function SignUp() {
         onSubmit={handleSubmit}
         className="mx-auto mb-3 max-w-xs rounded-md bg-white px-5 py-5 shadow-md sm:max-w-sm"
       >
-        <h3 className="mb-4 font-sans text-lg font-semibold text-gray-700 sm:text-lg md:text-xl">
+        <h3 className="mb-4 font-sans text-lg font-semibold text-gray-800 sm:text-lg md:text-xl">
           Sign Up
         </h3>
 
