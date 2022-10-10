@@ -31,9 +31,9 @@ function AuthProvider({ children }) {
     });
   }, []);
 
-  useEffect(() => {
-    navigate("/");
-  }, [curUser]);
+  // useEffect(() => {
+  //   navigate("/");
+  // }, [curUser]);
 
   function signUp(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
