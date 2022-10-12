@@ -26,102 +26,63 @@ function Dashboard() {
   const [postData, setPostData] = useState({
     title: "",
     content: "",
-    imageURL: "",
+    image: {
+      url: "",
+      name: "",
+      size: 0,
+      type: "",
+      created: "",
+      updated: "",
+    },
   });
-  const [file, setFile] = useState(null);
-  const [fileMessage, setFileMessage] = useState("");
+  const [fileMessage, setFileMessage] = useState(null);
 
   const editorRef = useRef(null);
 
-  useEffect(() => {
+  function uploadImage(file) {
+    console.log(file);
     if (!file) return;
-    function uploadImage() {
-      const storageRef = ref(storage, `/files/${file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        "state_changed",
-        snapshot => {
-          const percent = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          setFileMessage(
-            <p className="text-xs text-gray-700">
-              Upload is <strong className="font-semibold">{percent}</strong>%
-              done
-            </p>
-          );
-        },
-        err => {
-          console.error(err);
-          setFileMessage(
-            <p className="text-xs text-red-600">Failed to upload image</p>
-          );
-        },
-        async () => {
-          const url = await getDownloadURL(uploadTask.snapshot.ref);
-          setPostData(prevData => {
-            return {
-              ...prevData,
-              imageURL: url,
-            };
-          });
-          setFileMessage(
-            <p className="text-xs text-green-600">
-              Image successfully uploaded!
-            </p>
-          );
-        }
-      );
-    }
-    uploadImage();
-  }, [file]);
-
-  // function uploadImage() {
-  //   const storageRef = ref(storage, `/files/${file.name}`);
-  //   const uploadTask = uploadBytesResumable(storageRef, file);
-  //   uploadTask.on(
-  //     "state_changed",
-  //     snapshot => {
-  //       const percent = Math.round(
-  //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-  //       );
-  //       setImageMessage(
-  //         <p className="font-sans text-sm text-gray-600">
-  //           Upload is <strong className="font-semibold">{percent}</strong>% done
-  //         </p>
-  //       );
-  //     },
-  //     err => {
-  //       console.error(err);
-  //       setImageMessage(
-  //         <p className="font-sans text-sm text-red-600">
-  //           Failed to upload image
-  //         </p>
-  //       );
-  //     },
-  //     async () => {
-  //       const url = await getDownloadURL(uploadTask.snapshot.ref);
-  //       setFileUrl(url);
-  //       setImageMessage(
-  //         <p className="font-sans text-sm text-green-600">
-  //           Image successfully uploaded!
-  //         </p>
-  //       );
-  //     }
-  //   );
-  // }
-
-  // function upload() {
-  //   const content = editorRef.current.getContent();
-  //   // addDocument(title, preface, fileUrl, content);
-  //   setUploadMessage("Post added successfully!");
-  //   setTitle("");
-  //   setPreface("");
-  //   setImageMessage("");
-  //   setFileUrl("");
-  //   setFile(null);
-  //   editorRef.current.resetContent();
-  // }
+    const storageRef = ref(storage, `/files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const percent = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setFileMessage(
+          <p className="text-xs text-gray-700">
+            Upload is <strong className="font-medium">{percent}</strong>% done
+          </p>
+        );
+      },
+      (err) => {
+        console.error(err);
+        setFileMessage(
+          <p className="text-xs text-red-600">Failed to upload image</p>
+        );
+      },
+      async () => {
+        setFileMessage(null);
+        const { contentType, name, size, timeCreated, updated } =
+          uploadTask.snapshot.metadata;
+        const url = await getDownloadURL(uploadTask.snapshot.ref);
+        setPostData((prevData) => {
+          return {
+            ...prevData,
+            image: {
+              url,
+              name,
+              size,
+              type: contentType,
+              created: timeCreated,
+              updated,
+            },
+          };
+        });
+      }
+    );
+  }
 
   return (
     <>
@@ -146,8 +107,8 @@ function Dashboard() {
               Article title
             </label>
             <input
-              onChange={e =>
-                setPostData(prevData => {
+              onChange={(e) =>
+                setPostData((prevData) => {
                   return {
                     ...prevData,
                     title: e.target.value,
@@ -164,14 +125,14 @@ function Dashboard() {
               placeholder="How to blink correctly"
             />
           </div>
-          <div>
+          <div className="mb-6">
             <QuaternaryHeading text="Next, select a beautiful image">
               <HiOutlinePhotograph className="text-sm text-blue-400" />
             </QuaternaryHeading>
             <FileUploader
               types={["JPG", "PNG"]}
               children={
-                <div className="flex items-center gap-2 rounded border-2 border-dashed border-gray-300 py-3 pr-2 pl-3">
+                <div className="mb-2 flex items-center gap-2 rounded border-2 border-dashed border-gray-300 py-3 pr-2 pl-3">
                   <HiOutlineDocumentAdd className="text-base text-gray-500" />
                   <p className="text-xs text-gray-500">
                     <span className="cursor-pointer underline underline-offset-1 hover:no-underline">
@@ -181,23 +142,45 @@ function Dashboard() {
                   </p>
                 </div>
               }
-              handleChange={file => setFile(file)}
+              handleChange={(file) => uploadImage(file)}
             />
+            {fileMessage}
           </div>
-          {file && (
-            <div className="mt-3">
-              {fileMessage && <div>{fileMessage}</div>}
-              <div
-                className={
-                  postData.imageURL
-                    ? "mt-4 border border-gray-200 p-6"
-                    : "mt-4 flex h-24 animate-pulse items-center justify-center bg-gray-300"
-                }
-              >
-                {postData.imageURL && (
-                  <img src={postData.imageURL} alt={file.name} />
-                )}
+          {postData.image.url && (
+            <div className="px-5">
+              <p className="mb-5 truncate font-sans text-base font-medium text-gray-800">
+                {postData.image.name}
+              </p>
+              <div className="mx-auto mb-6 w-5/6">
+                <img
+                  src={postData.image.url}
+                  alt={postData.image.name?.slice(
+                    0,
+                    postData.image.name?.indexOf(".")
+                  )}
+                />
               </div>
+              <p className="mb-2 text-xs text-gray-400">
+                Name:
+                <br />
+                <span className="truncate text-gray-700">
+                  {postData.image.name}
+                </span>
+              </p>
+              <p className="mb-2 text-xs text-gray-400">
+                Size:
+                <br />
+                <span className="truncate text-gray-700">
+                  {postData.image.size.toLocaleString("en-US")} bytes
+                </span>
+              </p>
+              <p className="text-xs text-gray-400">
+                Type:
+                <br />
+                <span className="truncate text-gray-700">
+                  {postData.image.type}
+                </span>
+              </p>
             </div>
           )}
         </section>
@@ -205,42 +188,33 @@ function Dashboard() {
           <QuaternaryHeading text="Finally, write down the ideas">
             <HiOutlinePencil className="text-sm text-blue-400" />
           </QuaternaryHeading>
-          <Editor
-            apiKey={process.env.REACT_APP_TINY_API_KEY}
-            onInit={(evt, editor) => (editorRef.current = editor)}
-            initialValue=""
-            init={{
-              height: 500,
-              menubar: true,
-              plugins: [
-                "advlist",
-                "autolink",
-                "lists",
-                "link",
-                "image",
-                "charmap",
-                "preview",
-                "anchor",
-                "searchreplace",
-                "visualblocks",
-                "code",
-                "fullscreen",
-                "insertdatetime",
-                "media",
-                "table",
-                "code",
-                "help",
-                "wordcount",
-              ],
-              toolbar:
-                "undo redo | blocks | " +
-                "bold italic forecolor | alignleft aligncenter " +
-                "alignright alignjustify | bullist numlist outdent indent | " +
-                "removeformat | help",
-              content_style:
-                "body { font-family:Inter,sans-serif; font-size:14px }",
-            }}
-          />
+          <div className="px-3">
+            <Editor
+              apiKey={process.env.REACT_APP_TINY_API_KEY}
+              onInit={(evt, editor) => (editorRef.current = editor)}
+              initialValue=""
+              init={{
+                height: 500,
+                menubar: true,
+                plugins: [
+                  "lists",
+                  "link",
+                  "anchor",
+                  "searchreplace",
+                  "visualblocks",
+                  "help",
+                  "wordcount",
+                ],
+                toolbar:
+                  "undo redo | blocks | " +
+                  "bold italic | alignleft aligncenter " +
+                  "alignright alignjustify | anchor link | bullist numlist outdent indent | " +
+                  "removeformat | help",
+                content_style:
+                  "body { font-family:Inter,sans-serif; font-size:14px }",
+              }}
+            />
+          </div>
         </section>
       </section>
     </>
