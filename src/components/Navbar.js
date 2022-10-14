@@ -7,12 +7,12 @@ function Navbar() {
   const { curUser, logOut } = useAuth();
 
   return (
-    <nav className="flex h-full gap-1">
+    <nav className="flex h-full space-x-1">
       <NavLink
         className={({ isActive }) =>
           isActive
-            ? "flex items-center border-b-2 border-blue-900 px-3 font-sans text-sm font-normal text-blue-900 hover:border-gray-700 hover:bg-gray-100 hover:text-gray-700"
-            : "flex items-center border-b-2 border-transparent px-3 font-sans text-sm font-normal text-gray-700 hover:bg-gray-100 hover:text-gray-700"
+            ? "flex items-center border-b border-blue-800 px-2 font-sans text-sm font-normal text-blue-800 hover:border-gray-700 hover:bg-gray-100 hover:text-gray-700"
+            : "flex items-center border-b border-transparent px-2 font-sans text-sm font-normal text-gray-700 hover:bg-gray-100 hover:text-gray-700"
         }
         to="/"
       >
@@ -23,8 +23,8 @@ function Navbar() {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "flex items-center border-b-2 border-blue-900 px-3 font-sans text-sm font-normal text-blue-900 hover:border-gray-700 hover:bg-gray-100 hover:text-gray-700"
-              : "flex items-center border-b-2 border-transparent px-3 font-sans text-sm font-normal text-gray-700 hover:bg-gray-100 hover:text-gray-700"
+              ? "flex items-center border-b border-blue-800 px-2 font-sans text-sm font-normal text-blue-800 hover:border-gray-700 hover:bg-gray-100 hover:text-gray-700"
+              : "flex items-center border-b border-transparent px-2 font-sans text-sm font-normal text-gray-700 hover:bg-gray-100 hover:text-gray-700"
           }
           to="/dashboard"
         >
@@ -33,7 +33,7 @@ function Navbar() {
       )}
       {curUser ? (
         <button
-          className="flex items-center border-b-2 border-transparent px-3 font-sans text-sm font-normal text-gray-700 hover:bg-gray-100 hover:text-gray-700"
+          className="flex items-center border-b border-transparent px-2 font-sans text-sm font-normal text-gray-700 hover:bg-gray-100 hover:text-gray-700"
           onClick={logOut}
         >
           <span>Log Out</span>
@@ -42,8 +42,8 @@ function Navbar() {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "flex items-center border-b-2 border-blue-900 px-3 font-sans text-sm font-normal text-blue-900 hover:border-gray-700 hover:bg-gray-100 hover:text-gray-700"
-              : "flex items-center border-b-2 border-transparent px-3 font-sans text-sm font-normal text-gray-700 hover:bg-gray-100 hover:text-gray-700"
+              ? "flex items-center border-b border-blue-800 px-2 font-sans text-sm font-normal text-blue-800 hover:border-gray-700 hover:bg-gray-100 hover:text-gray-700"
+              : "flex items-center border-b border-transparent px-2 font-sans text-sm font-normal text-gray-700 hover:bg-gray-100 hover:text-gray-700"
           }
           to="/login"
         >
