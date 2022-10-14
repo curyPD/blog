@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import PrimaryHeading from "../components/PrimaryHeading";
 import SecondaryHeading from "../components/SecondaryHeading";
 import QuaternaryHeading from "../components/QuaternaryHeading";
 
@@ -109,12 +110,8 @@ function Dashboard() {
 
   return (
     <>
-      <section className="pb-16 pt-12 pr-10">
-        <div className="max-w-sm rounded-r bg-white px-4 pt-8 pb-12 shadow-sm">
-          <h1 className="text-left font-serif text-3xl font-medium tracking-tight text-gray-700">
-            It's time to share knowledge with the world.
-          </h1>
-        </div>
+      <section className="pb-16 pt-12">
+        <PrimaryHeading text="It's time to share knowledge with the world." />
       </section>
       <section className="bg-white pt-4 pb-12">
         <SecondaryHeading sText="add post" hText="Let's get creative" />

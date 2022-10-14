@@ -23,7 +23,7 @@ function ArticlesProvider({ children }) {
 
   const articleListRef = ref(db, "articles");
   useEffect(() => {
-    onChildAdded(articleListRef, (data) => {
+    return onChildAdded(articleListRef, (data) => {
       const { key } = data;
       const val = data.val();
       console.log(key, val);
@@ -38,6 +38,7 @@ function ArticlesProvider({ children }) {
       });
     });
   }, []);
+  console.log(articles);
 
   async function uploadArticle(data) {
     const newArticleRef = push(articleListRef);

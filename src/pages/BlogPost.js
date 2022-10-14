@@ -1,53 +1,61 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-// import { useFirestore } from "../contexts/FirestoreContext";
-
-// function BlogPost() {
-//   const { articleId } = useParams();
-
-//   const { articles } = useFirestore();
-
-//   const articleObj = articles.find(article => article.id === articleId);
-//   const article = articleObj?.data();
-//   console.log(article);
-
-//   const date = new Date(article.date?.seconds * 1000);
-//   const formattedDate = article.date
-//     ? new Intl.DateTimeFormat("en-US", {
-//         dateStyle: "medium",
-//       }).format(date)
-//     : null;
-
-//   return (
-//     <article className="bg-white py-10 md:py-12 lg:py-14 xl:py-16">
-//       <div className="mx-auto mb-5 w-5/6 max-w-lg sm:px-6 md:max-w-screen-sm lg:w-auto lg:max-w-screen-md lg:px-8">
-//         <div className="mb-4 h-px w-52 bg-blue-300 md:w-72">&nbsp;</div>
-//         <h1 className="mb-5 font-serif text-2xl font-bold text-blue-900 md:mb-8 md:text-3xl lg:mb-10 lg:text-4xl">
-//           {article.title}
-//         </h1>
-//         <div className="mb-10 md:mb-14 lg:mb-16">
-//           {formattedDate && (
-//             <p className="mb-3 text-xs text-gray-400 md:text-sm">
-//               {formattedDate}
-//             </p>
-//           )}
-//           <img src={article.imageUrl} className="w-full" alt="Car" />
-//         </div>
-//         {/* <p className="text-lg md:text-xl">{article.preface}</p> */}
-//       </div>
-//       <section
-//         dangerouslySetInnerHTML={{ __html: article.content }}
-//         className="prose prose-sm prose-gray mx-auto w-5/6 max-w-lg sm:px-6 md:prose-base md:max-w-screen-sm lg:prose-lg lg:w-auto lg:max-w-screen-md lg:px-8"
-//       ></section>
-//       <div className="mx-auto mb-5 w-5/6 max-w-screen-sm sm:px-6 lg:w-auto lg:max-w-screen-md lg:px-8">
-//         <div className="mt-6 h-px w-52 bg-blue-300 md:w-72">&nbsp;</div>
-//       </div>
-//     </article>
-//   );
-// }
+import { useArticles } from "../contexts/ArticlesContext";
 
 function BlogPost() {
-  return <h1>Blog Post</h1>;
+  const { articleId } = useParams();
+  const { articles } = useArticles();
+  const curArticle = articles.find((article) => article.key === articleId);
+  console.log(curArticle);
+  let formattedDate;
+  if (curArticle?.upload) {
+    const date = new Date(curArticle.upload);
+    formattedDate = new Intl.DateTimeFormat("en-US", {
+      dateStyle: "medium",
+    }).format(date);
+  }
+
+  return (
+    <section className="bg-white py-9">
+      <div className="mx-auto max-w-md px-5">
+        {curArticle ? (
+          <>
+            <h1 className="mb-8 font-serif text-3xl font-medium text-gray-700">
+              {curArticle.title}
+            </h1>
+            {formattedDate && (
+              <p className="mb-2 text-right font-serif text-xs text-gray-500">
+                {formattedDate}
+              </p>
+            )}
+            <div className="mb-10">
+              <img
+                src={curArticle.image.url}
+                alt={curArticle.image.name.slice(
+                  0,
+                  curArticle.image.name?.indexOf(".")
+                )}
+              />
+            </div>
+            <div
+              className="prose prose-sm prose-gray font-serif prose-headings:font-semibold prose-headings:text-gray-800"
+              dangerouslySetInnerHTML={{ __html: curArticle.content }}
+            ></div>
+          </>
+        ) : (
+          <div className="animate-pulse">
+            <div className="mb-8 h-6 bg-gray-300">&nbsp;</div>
+            <div className="mb-10 h-44 bg-gray-300">&nbsp;</div>
+            <div className="mb-3 h-3 bg-gray-300">&nbsp;</div>
+            <div className="mb-3 h-3 bg-gray-300">&nbsp;</div>
+            <div className="mb-3 h-3 bg-gray-300">&nbsp;</div>
+            <div className="mb-3 h-3 bg-gray-300">&nbsp;</div>
+            <div className="mb-3 h-3 bg-gray-300">&nbsp;</div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
 }
 
 export default BlogPost;

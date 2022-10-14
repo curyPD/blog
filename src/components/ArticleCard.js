@@ -32,7 +32,7 @@ function ArticleCard(props) {
           className="mb-4 font-serif text-sm text-gray-600 line-clamp-3"
           dangerouslySetInnerHTML={{ __html: props.content }}
         ></p>
-        <div className="mb-3 text-right font-serif text-xs text-gray-500">
+        <div className="mb-3 text-left font-serif text-xs text-gray-500">
           <span>{formattedDate}</span>
         </div>
         <Link to={`/articles/${props.id}`}>
