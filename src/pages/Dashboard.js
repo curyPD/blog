@@ -1,9 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import SecondaryHeading from "../components/SecondaryHeading";
 import QuaternaryHeading from "../components/QuaternaryHeading";
 
 import { Editor } from "@tinymce/tinymce-react";
 import { FileUploader } from "react-drag-drop-files";
+import Button from "../components/Button";
+
+import { useArticles } from "../contexts/ArticlesContext";
 
 import {
   HiOutlinePhotograph,
@@ -15,17 +18,17 @@ import {
 import { app } from "../firebase";
 import {
   getStorage,
-  ref,
+  ref as storage_ref,
   getDownloadURL,
   uploadBytesResumable,
 } from "firebase/storage";
+import { useEffect } from "react";
 
 const storage = getStorage(app);
 
 function Dashboard() {
   const [postData, setPostData] = useState({
     title: "",
-    content: "",
     image: {
       url: "",
       name: "",
@@ -39,10 +42,15 @@ function Dashboard() {
 
   const editorRef = useRef(null);
 
+  const { uploadArticle, message } = useArticles();
+  useEffect(() => {
+    console.log(message);
+  }, [message]);
+
   function uploadImage(file) {
     console.log(file);
     if (!file) return;
-    const storageRef = ref(storage, `/files/${file.name}`);
+    const storageRef = storage_ref(storage, `/files/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
     uploadTask.on(
       "state_changed",
@@ -84,11 +92,26 @@ function Dashboard() {
     );
   }
 
+  function init() {
+    setPostData({
+      title: "",
+      image: {
+        url: "",
+        name: "",
+        size: 0,
+        type: "",
+        created: "",
+        updated: "",
+      },
+    });
+    editorRef.current.setContent("");
+  }
+
   return (
     <>
       <section className="pb-16 pt-12 pr-10">
         <div className="max-w-sm rounded-r bg-white px-4 pt-8 pb-12 shadow-sm">
-          <h1 className="text-left font-serif text-3xl font-medium tracking-tight text-gray-800">
+          <h1 className="text-left font-serif text-3xl font-medium tracking-tight text-gray-700">
             It's time to share knowledge with the world.
           </h1>
         </div>
@@ -185,10 +208,10 @@ function Dashboard() {
           )}
         </section>
         <section className="container mx-auto mb-12 px-4">
-          <QuaternaryHeading text="Finally, write down the ideas">
+          <QuaternaryHeading text="Finally, write something interesting">
             <HiOutlinePencil className="text-sm text-blue-400" />
           </QuaternaryHeading>
-          <div className="px-3">
+          <div className="mb-7">
             <Editor
               apiKey={process.env.REACT_APP_TINY_API_KEY}
               onInit={(evt, editor) => (editorRef.current = editor)}
@@ -211,7 +234,21 @@ function Dashboard() {
                   "alignright alignjustify | anchor link | bullist numlist outdent indent | " +
                   "removeformat | help",
                 content_style:
-                  "body { font-family:Inter,sans-serif; font-size:14px }",
+                  "body { font-family:Inter,sans-serif; font-size:16px }",
+              }}
+            />
+          </div>
+          <div className="flex items-center gap-3">
+            <Button
+              type="button"
+              text="upload"
+              clickHandler={() => {
+                const content = editorRef.current.getContent();
+                if (!content) return;
+                const now = new Date().toISOString();
+
+                uploadArticle({ ...postData, content, upload: now });
+                init();
               }}
             />
           </div>
