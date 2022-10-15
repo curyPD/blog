@@ -1,13 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import {
-  getDatabase,
-  ref,
-  push,
-  set,
-  onChildAdded,
-  onChildChanged,
-  onChildRemoved,
-} from "firebase/database";
+import { getDatabase, ref, push, set, onChildAdded } from "firebase/database";
 import { app } from "../firebase";
 
 const db = getDatabase(app);
@@ -21,9 +13,8 @@ function ArticlesProvider({ children }) {
   const [articles, setArticles] = useState([]);
   const [message, setMessage] = useState("");
 
-  const articleListRef = ref(db, "articles");
   useEffect(() => {
-    return onChildAdded(articleListRef, (data) => {
+    return onChildAdded(ref(db, "articles"), (data) => {
       const { key } = data;
       const val = data.val();
       console.log(key, val);
@@ -41,7 +32,7 @@ function ArticlesProvider({ children }) {
   console.log(articles);
 
   async function uploadArticle(data) {
-    const newArticleRef = push(articleListRef);
+    const newArticleRef = push(ref(db, "articles"));
     await set(newArticleRef, data);
     setMessage("added");
   }
