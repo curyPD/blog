@@ -7,6 +7,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 import Button from "../components/Button";
+import GoogleAuthButton from "../components/GoogleAuthButton";
 
 function SignUp() {
   const [inputData, setInputData] = useState({
@@ -16,11 +17,11 @@ function SignUp() {
     confirmPassword: "",
   });
   const [error, setError] = useState("");
-  const { signUp, updateUserName } = useAuth();
+  const { signUp, updateUserName, signInWithGoogle } = useAuth();
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setInputData(prevData => {
+    setInputData((prevData) => {
       return {
         ...prevData,
         [name]: value,
@@ -53,6 +54,16 @@ function SignUp() {
     }
   }
 
+  async function handleGoogleSignIn() {
+    try {
+      setError("");
+      await signInWithGoogle();
+    } catch (error) {
+      setError("Failed to sign in");
+      console.error(error);
+    }
+  }
+
   return (
     <section className="mb-7 px-4 py-8 sm:pt-12 md:pt-16">
       <form
@@ -62,7 +73,7 @@ function SignUp() {
         <h3 className="mb-4 font-sans text-lg font-semibold text-gray-800 sm:text-lg md:text-xl">
           Sign Up
         </h3>
-
+        <GoogleAuthButton handleClick={handleGoogleSignIn} />
         <label
           htmlFor="name"
           className="mb-1 block font-sans text-xs text-gray-700 sm:text-sm"

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import GoogleAuthButton from "../components/GoogleAuthButton";
 
 import Button from "../components/Button";
 
@@ -14,11 +15,11 @@ export default function LogIn() {
     password: "",
   });
   const [error, setError] = useState("");
-  const { logIn } = useAuth();
+  const { logIn, signInWithGoogle } = useAuth();
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setInputData(prevData => {
+    setInputData((prevData) => {
       return {
         ...prevData,
         [name]: value,
@@ -41,6 +42,16 @@ export default function LogIn() {
     }
   }
 
+  async function handleGoogleSignIn() {
+    try {
+      setError("");
+      await signInWithGoogle();
+    } catch (error) {
+      setError("Failed to sign in");
+      console.error(error);
+    }
+  }
+
   return (
     <section className="mb-7 px-4 py-8 sm:pt-12 md:pt-16">
       <form
@@ -50,7 +61,7 @@ export default function LogIn() {
         <h3 className="mb-4 font-sans text-lg font-semibold text-gray-800 sm:text-lg md:text-xl">
           Log In
         </h3>
-
+        <GoogleAuthButton handleClick={handleGoogleSignIn} />
         <label
           htmlFor="email"
           className="mb-1 block font-sans text-xs text-gray-700 sm:text-sm"
@@ -61,7 +72,7 @@ export default function LogIn() {
           onChange={handleChange}
           name="email"
           value={inputData.email}
-          className="mb-4 block w-full rounded-sm border border-gray-300 bg-white py-2  px-3 font-sans text-xs text-gray-700 shadow-sm placeholder:text-gray-300 invalid:border-red-500 invalid:text-red-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:invalid:border-gray-300 focus:invalid:text-gray-700 sm:text-sm"
+          className="mb-4 block w-full rounded-sm border border-gray-300 bg-white py-2  px-3 font-sans text-xs text-gray-700 shadow-sm placeholder:text-gray-300 invalid:border-red-500 invalid:text-red-500 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400 focus:invalid:border-gray-300 focus:invalid:text-gray-700 sm:text-sm"
           type="email"
           id="email"
           placeholder="myemail@gmail.com"
@@ -78,7 +89,7 @@ export default function LogIn() {
           onChange={handleChange}
           name="password"
           value={inputData.password}
-          className="mb-4 block w-full rounded-sm border border-gray-300 bg-white py-2 px-3 font-sans text-xs text-gray-700 shadow-sm placeholder:text-gray-300 invalid:border-red-500 invalid:text-red-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:invalid:border-gray-300 focus:invalid:text-gray-700 sm:text-sm"
+          className="mb-4 block w-full rounded-sm border border-gray-300 bg-white py-2 px-3 font-sans text-xs text-gray-700 shadow-sm placeholder:text-gray-300 invalid:border-red-500 invalid:text-red-500 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400 focus:invalid:border-gray-300 focus:invalid:text-gray-700 sm:text-sm"
           type="password"
           id="password"
           placeholder="johny1234"

@@ -7,11 +7,12 @@ import {
   signOut,
   updateProfile,
   sendPasswordResetEmail,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { app } from "../firebase";
 
-import { useNavigate } from "react-router-dom";
-
+const provider = new GoogleAuthProvider();
 const auth = getAuth(app);
 
 const AuthContext = React.createContext();
@@ -22,18 +23,17 @@ export function useAuth() {
 
 function AuthProvider({ children }) {
   const [curUser, setCurUser] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    onAuthStateChanged(auth, user => {
+    onAuthStateChanged(auth, (user) => {
       setCurUser(user);
       console.log(user);
     });
   }, []);
 
-  // useEffect(() => {
-  //   navigate("/");
-  // }, [curUser]);
+  function signInWithGoogle() {
+    return signInWithPopup(auth, provider);
+  }
 
   function signUp(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -56,7 +56,8 @@ function AuthProvider({ children }) {
   function resetPassword(email) {
     return sendPasswordResetEmail(auth, email);
     // TODO:
-    // When deployed, pass the continue URL parameter to the function. Url probably should lead to Log In page.
+    // When deployed, pass the continue URL parameter to the function.
+    // Url probably should lead to Log In page.
   }
 
   const value = {
@@ -66,6 +67,7 @@ function AuthProvider({ children }) {
     logOut,
     updateUserName,
     resetPassword,
+    signInWithGoogle,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
