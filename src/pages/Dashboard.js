@@ -6,6 +6,7 @@ import QuaternaryHeading from "../components/QuaternaryHeading";
 import { Editor } from "@tinymce/tinymce-react";
 import { FileUploader } from "react-drag-drop-files";
 import Button from "../components/Button";
+import TdButton from "../components/TdButton";
 
 import { useArticles } from "../contexts/ArticlesContext";
 
@@ -14,6 +15,7 @@ import {
   HiOutlinePencil,
   HiOutlineDocumentAdd,
   HiOutlineLightBulb,
+  HiOutlineDotsVertical,
 } from "react-icons/hi";
 
 import { app } from "../firebase";
@@ -43,7 +45,7 @@ function Dashboard() {
 
   const editorRef = useRef(null);
 
-  const { uploadArticle, message } = useArticles();
+  const { uploadArticle, message, articles } = useArticles();
   useEffect(() => {
     console.log(message);
   }, [message]);
@@ -108,11 +110,84 @@ function Dashboard() {
     editorRef.current.setContent("");
   }
 
+  const tableRows = articles.map((article) => {
+    let formattedDate;
+    if (article.upload) {
+      const date = new Date(article.upload);
+      formattedDate = new Intl.DateTimeFormat("en-US", {
+        dateStyle: "medium",
+      }).format(date);
+    }
+    return (
+      <tr key={article.key}>
+        <td className="py-2 px-3">
+          <img
+            src={article.image.url}
+            alt=""
+            className="w-16 max-w-none rounded-sm"
+          />
+        </td>
+        <td className="py-2 px-3 text-sm font-normal text-gray-600">
+          {article.title}
+        </td>
+        <td className="py-2 px-3 text-xs font-normal text-gray-500">
+          {article.key}
+        </td>
+        <td className="py-2 px-3 text-xs font-normal text-gray-500">
+          {formattedDate}
+        </td>
+        {/* <TdButton /> */}
+        {/* <td className="relative py-2 px-3">
+          <button onClick={() => setPopupOpen((prev) => !prev)}>
+            <HiOutlineDotsVertical className="text-lg text-gray-500" />
+          </button>
+          {popupOpen && (
+            <div className="absolute top-1/2 right-full z-20 flex w-24 flex-col items-stretch rounded border border-gray-100 bg-white py-1 shadow-md">
+              <button className="py-2 px-3 text-left text-xs text-gray-700 hover:bg-gray-100">
+                Edit post
+              </button>
+              <button className="py-2 px-3 text-left text-xs text-gray-700 hover:bg-gray-100">
+                Delete post
+              </button>
+            </div>
+          )}
+        </td> */}
+      </tr>
+    );
+  });
+
   return (
     <>
       <section className="pb-16 pt-12">
         <PrimaryHeading text="It's time to share knowledge with the world." />
       </section>
+
+      <section className="bg-white pt-4 pb-12">
+        <SecondaryHeading sText="your posts" hText="Review all your work" />
+        <section className="container mx-auto mb-12 px-4">
+          <table className="mx-auto block w-full max-w-3xl border-collapse overflow-x-auto rounded-md border border-gray-300">
+            <thead className="whitespace-nowrap border-b border-gray-300 bg-gray-100">
+              <tr>
+                <th className="py-2 px-3 text-left text-xs font-normal text-gray-700">
+                  Image
+                </th>
+                <th className="py-2 px-3 text-left text-xs font-normal text-gray-700">
+                  Title
+                </th>
+                <th className="py-2 px-3 text-left text-xs font-normal text-gray-700">
+                  Article Id
+                </th>
+                <th className="w-full py-2 px-3 text-left text-xs font-normal text-gray-700">
+                  Last Updated
+                </th>
+                <th className="py-2 px-3"></th>
+              </tr>
+            </thead>
+            <tbody className="whitespace-nowrap">{tableRows}</tbody>
+          </table>
+        </section>
+      </section>
+
       <section className="bg-white pt-4 pb-12">
         <SecondaryHeading sText="add post" hText="Let's get creative" />
         <section className="container mx-auto mb-12 px-4">
@@ -167,7 +242,7 @@ function Dashboard() {
             {fileMessage}
           </div>
           {postData.image.url && (
-            <div className="px-5">
+            <div className="px-3">
               <p className="mb-5 truncate font-sans text-base font-medium text-gray-800">
                 {postData.image.name}
               </p>
