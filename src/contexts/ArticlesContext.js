@@ -1,5 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
-import { getDatabase, ref, push, set, onChildAdded } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  push,
+  set,
+  onChildAdded,
+  onChildChanged,
+} from "firebase/database";
 import { app } from "../firebase";
 
 const db = getDatabase(app);
@@ -11,10 +18,10 @@ export function useArticles() {
 
 function ArticlesProvider({ children }) {
   const [articles, setArticles] = useState([]);
-  const [message, setMessage] = useState("");
+  const [editedArticleId, setEditedArticleId] = useState(null);
 
   useEffect(() => {
-    return onChildAdded(ref(db, "articles"), (data) => {
+    onChildAdded(ref(db, "articles"), (data) => {
       const { key } = data;
       const val = data.val();
       console.log(key, val);
@@ -28,19 +35,36 @@ function ArticlesProvider({ children }) {
         ];
       });
     });
+    onChildChanged(ref(db, "articles"), (data) => {
+      setEditedArticleId(null);
+      const { key } = data;
+      const val = data.val();
+      console.log(key, val);
+      setArticles((prevArticles) => {
+        return prevArticles.map((article) =>
+          article.key === key ? { key, ...val } : article
+        );
+      });
+    });
   }, []);
   console.log(articles);
 
-  async function uploadArticle(data) {
+  function uploadArticle(data) {
     const newArticleRef = push(ref(db, "articles"));
-    await set(newArticleRef, data);
-    setMessage("added");
+    return set(newArticleRef, data);
+  }
+
+  function updateArticle(data) {
+    const articleRef = ref(db, `articles/${editedArticleId}`);
+    return set(articleRef, data);
   }
 
   const value = {
     articles,
     uploadArticle,
-    message,
+    editedArticleId,
+    setEditedArticleId,
+    updateArticle,
   };
 
   return (

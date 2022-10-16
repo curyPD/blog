@@ -29,29 +29,49 @@ import { useEffect } from "react";
 const storage = getStorage(app);
 
 function Dashboard() {
-  const [postData, setPostData] = useState({
-    title: "",
-    image: {
-      url: "",
-      name: "",
-      size: 0,
-      type: "",
-      created: "",
-      updated: "",
-    },
-  });
-  const [fileMessage, setFileMessage] = useState(null);
   const [trHeight, setTrHeight] = useState(0);
   const [trImageLoaded, setTrImageLoaded] = useState(false);
+  const [activePopup, setActivePopup] = useState(null);
+  const [overlayShown, setOverlayShown] = useState(false);
+  const [dashboardMode, setDashboardMode] = useState("add");
+
+  const [fileMessage, setFileMessage] = useState(null);
+  const [title, setTitle] = useState("");
+  const [image, setImage] = useState({});
 
   const editorRef = useRef(null);
   const trRef = useRef(null);
+  const workshopSectionRef = useRef(null);
+  const postsSectionRef = useRef(null);
 
-  const { uploadArticle, articles } = useArticles();
+  const {
+    uploadArticle,
+    updateArticle,
+    articles,
+    editedArticleId,
+    setEditedArticleId,
+  } = useArticles();
 
   useEffect(() => {
     setTrHeight(trRef.current?.offsetHeight);
   }, [trImageLoaded]);
+
+  useEffect(() => {
+    if (dashboardMode === "add") {
+      return init();
+    }
+    if (dashboardMode === "edit") {
+      const editedArticle = articles.find(
+        (article) => article.key === editedArticleId
+      );
+      if (!editedArticle) {
+        return setDashboardMode("add");
+      }
+      setTitle(editedArticle.title);
+      setImage({ ...editedArticle.image });
+      editorRef.current.setContent(editedArticle.content);
+    }
+  }, [editedArticleId, dashboardMode]);
 
   function uploadImage(file) {
     console.log(file);
@@ -81,41 +101,68 @@ function Dashboard() {
         const { contentType, name, size, timeCreated, updated } =
           uploadTask.snapshot.metadata;
         const url = await getDownloadURL(uploadTask.snapshot.ref);
-        setPostData((prevData) => {
-          return {
-            ...prevData,
-            image: {
-              url,
-              name,
-              size,
-              type: contentType,
-              created: timeCreated,
-              updated,
-            },
-          };
+        setImage({
+          url,
+          name,
+          size,
+          type: contentType,
+          created: timeCreated,
+          updated,
         });
       }
     );
   }
 
-  function init() {
-    setPostData({
-      title: "",
-      image: {
-        url: "",
-        name: "",
-        size: 0,
-        type: "",
-        created: "",
-        updated: "",
-      },
+  async function handleAddPost() {
+    const content = editorRef.current.getContent();
+    if (!content) return;
+    const now = new Date().toISOString();
+    await uploadArticle({ title, image, content, upload: now });
+    init();
+    postsSectionRef.current.scrollIntoView({ behavior: "smooth" });
+  }
+
+  async function handleEditPost() {
+    const content = editorRef.current?.getContent();
+    const editedArticle = articles.find(
+      (article) => article.key === editedArticleId
+    );
+    const created = editedArticle?.upload ?? "";
+    const now = new Date().toISOString();
+    await updateArticle({
+      title,
+      image,
+      content,
+      upload: created,
+      updated: now,
     });
-    editorRef.current.setContent("");
+    postsSectionRef.current.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function init() {
+    setTitle("");
+    setImage({});
+    editorRef.current?.setContent("");
+  }
+
+  function showPopup(i) {
+    setOverlayShown(true);
+    setActivePopup(i);
+  }
+
+  function closePopup() {
+    setActivePopup(null);
+    setOverlayShown(false);
   }
 
   const tableRows = articles.map((article, i, arr) => {
     let formattedDate;
-    if (article.upload) {
+    if (article.updated) {
+      const date = new Date(article.updated);
+      formattedDate = new Intl.DateTimeFormat("en-US", {
+        dateStyle: "medium",
+      }).format(date);
+    } else if (!article.updated && article.upload) {
       const date = new Date(article.upload);
       formattedDate = new Intl.DateTimeFormat("en-US", {
         dateStyle: "medium",
@@ -146,6 +193,14 @@ function Dashboard() {
           trHeight={trHeight}
           index={i}
           arrLength={arr.length}
+          showPopup={() => showPopup(i)}
+          closePopup={closePopup}
+          popupOpen={i === activePopup}
+          setDashboardMode={setDashboardMode}
+          setEditedArticleId={() => setEditedArticleId(article.key)}
+          scrollToSection={() =>
+            workshopSectionRef.current.scrollIntoView({ behavior: "smooth" })
+          }
         />
       </tr>
     );
@@ -153,14 +208,21 @@ function Dashboard() {
 
   return (
     <>
+      {overlayShown && (
+        <div
+          className="absolute left-0 top-0 z-10 h-full w-full"
+          onClick={closePopup}
+        ></div>
+      )}
+
       <section className="pb-16 pt-12">
         <PrimaryHeading text="It's time to share knowledge with the world." />
       </section>
 
-      <section className="bg-white pt-4 pb-12">
+      <section ref={postsSectionRef} className="bg-white pt-4 pb-12">
         <SecondaryHeading sText="your posts" hText="Review all your work" />
-        <section className="container mx-auto mb-12 px-4">
-          <div className="relative mx-auto w-full max-w-3xl">
+        <div className="container mx-auto px-4">
+          <div className="relative mx-auto mb-5 w-full max-w-3xl">
             <table className="block w-full border-collapse overflow-x-auto overflow-y-visible rounded-sm border border-gray-200">
               <thead className="whitespace-nowrap border-b border-gray-200 bg-gray-100">
                 <tr>
@@ -182,14 +244,37 @@ function Dashboard() {
               <tbody className="whitespace-nowrap">{tableRows}</tbody>
             </table>
           </div>
-        </section>
+          <div className="mx-auto max-w-3xl">
+            <Button
+              type="button"
+              text="add new post"
+              outline={true}
+              clickHandler={() => {
+                setDashboardMode("add");
+                workshopSectionRef.current.scrollIntoView({
+                  behavior: "smooth",
+                });
+              }}
+            />
+          </div>
+        </div>
       </section>
 
-      <section className="bg-white pt-4 pb-12">
-        <SecondaryHeading sText="add post" hText="Let's get creative" />
+      <section ref={workshopSectionRef} className="bg-white pt-4 pb-12">
+        {dashboardMode === "add" ? (
+          <SecondaryHeading sText="add post" hText="Let's get creative" />
+        ) : (
+          <SecondaryHeading sText="edit post" hText="Let's make some changes" />
+        )}
         <section className="container mx-auto mb-12 px-4">
           <div className="mb-8">
-            <QuaternaryHeading text="First, add a catchy title">
+            <QuaternaryHeading
+              text={
+                dashboardMode === "add"
+                  ? "First, add a catchy title"
+                  : "Change the title"
+              }
+            >
               <HiOutlineLightBulb className="text-sm text-blue-400" />
             </QuaternaryHeading>
             <label
@@ -199,18 +284,11 @@ function Dashboard() {
               Article title
             </label>
             <input
-              onChange={(e) =>
-                setPostData((prevData) => {
-                  return {
-                    ...prevData,
-                    title: e.target.value,
-                  };
-                })
-              }
+              onChange={(e) => setTitle(e.target.value)}
               name="title"
-              value={postData.title}
+              value={title}
               className={`${
-                postData.title ? "border-blue-600" : "border-gray-400"
+                title ? "border-blue-600" : "border-gray-400"
               } block w-full border-b py-0.5 px-1 font-sans text-xs font-semibold text-blue-600 placeholder:text-gray-300 focus:border-blue-600 focus:outline-none`}
               type="text"
               id="title"
@@ -218,7 +296,13 @@ function Dashboard() {
             />
           </div>
           <div className="mb-6">
-            <QuaternaryHeading text="Next, select a beautiful image">
+            <QuaternaryHeading
+              text={
+                dashboardMode === "add"
+                  ? "Next, select a beautiful image"
+                  : "Choose a different image"
+              }
+            >
               <HiOutlinePhotograph className="text-sm text-blue-400" />
             </QuaternaryHeading>
             <FileUploader
@@ -238,46 +322,45 @@ function Dashboard() {
             />
             {fileMessage}
           </div>
-          {postData.image.url && (
+          {image.url && (
             <div className="px-3">
               <p className="mb-5 truncate font-sans text-base font-medium text-gray-800">
-                {postData.image.name}
+                {image.name}
               </p>
               <div className="mx-auto mb-6 w-5/6">
                 <img
-                  src={postData.image.url}
-                  alt={postData.image.name?.slice(
-                    0,
-                    postData.image.name?.indexOf(".")
-                  )}
+                  src={image.url}
+                  alt={image.name?.slice(0, image.name?.indexOf("."))}
                 />
               </div>
               <p className="mb-2 text-xs text-gray-400">
                 Name:
                 <br />
-                <span className="truncate text-gray-700">
-                  {postData.image.name}
-                </span>
+                <span className="truncate text-gray-700">{image.name}</span>
               </p>
               <p className="mb-2 text-xs text-gray-400">
                 Size:
                 <br />
                 <span className="truncate text-gray-700">
-                  {postData.image.size.toLocaleString("en-US")} bytes
+                  {image.size.toLocaleString("en-US")} bytes
                 </span>
               </p>
               <p className="text-xs text-gray-400">
                 Type:
                 <br />
-                <span className="truncate text-gray-700">
-                  {postData.image.type}
-                </span>
+                <span className="truncate text-gray-700">{image.type}</span>
               </p>
             </div>
           )}
         </section>
         <section className="container mx-auto mb-12 px-4">
-          <QuaternaryHeading text="Finally, write something interesting">
+          <QuaternaryHeading
+            text={
+              dashboardMode === "add"
+                ? "Finally, write something interesting"
+                : "Make changes to the content"
+            }
+          >
             <HiOutlinePencil className="text-sm text-blue-400" />
           </QuaternaryHeading>
           <div className="mb-7">
@@ -311,14 +394,9 @@ function Dashboard() {
             <Button
               type="button"
               text="upload"
-              clickHandler={() => {
-                const content = editorRef.current.getContent();
-                if (!content) return;
-                const now = new Date().toISOString();
-
-                uploadArticle({ ...postData, content, upload: now });
-                init();
-              }}
+              clickHandler={
+                dashboardMode === "add" ? handleAddPost : handleEditPost
+              }
             />
           </div>
         </section>
