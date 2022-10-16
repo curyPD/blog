@@ -37,7 +37,13 @@ function TdButton(props) {
             >
               Edit post
             </button>
-            <button className="py-2 px-3 text-left text-xs text-gray-700 hover:bg-gray-100">
+            <button
+              onClick={() => {
+                props.setPostIdToDelete();
+                props.closePopup();
+              }}
+              className="py-2 px-3 text-left text-xs text-gray-700 hover:bg-gray-100"
+            >
               Delete post
             </button>
           </div>

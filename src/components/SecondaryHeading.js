@@ -2,7 +2,7 @@ import React from "react";
 
 function SecondaryHeading({ hText, sText }) {
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-4 text-center">
       <span className="font-sans text-[10px] font-bold uppercase tracking-widest text-blue-400">
         {sText}
       </span>

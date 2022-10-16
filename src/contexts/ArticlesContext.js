@@ -6,6 +6,8 @@ import {
   set,
   onChildAdded,
   onChildChanged,
+  onChildRemoved,
+  remove,
 } from "firebase/database";
 import { app } from "../firebase";
 
@@ -18,7 +20,8 @@ export function useArticles() {
 
 function ArticlesProvider({ children }) {
   const [articles, setArticles] = useState([]);
-  const [editedArticleId, setEditedArticleId] = useState(null);
+  const [editedArticleId, setEditedArticleId] = useState("");
+  const [postIdToDelete, setPostIdToDelete] = useState("");
 
   useEffect(() => {
     onChildAdded(ref(db, "articles"), (data) => {
@@ -36,7 +39,7 @@ function ArticlesProvider({ children }) {
       });
     });
     onChildChanged(ref(db, "articles"), (data) => {
-      setEditedArticleId(null);
+      setEditedArticleId("");
       const { key } = data;
       const val = data.val();
       console.log(key, val);
@@ -44,6 +47,14 @@ function ArticlesProvider({ children }) {
         return prevArticles.map((article) =>
           article.key === key ? { key, ...val } : article
         );
+      });
+    });
+    onChildRemoved(ref(db, "articles"), (data) => {
+      setPostIdToDelete("");
+      const { key } = data;
+      console.log(key);
+      setArticles((prevArticles) => {
+        return prevArticles.filter((article) => article.key !== key);
       });
     });
   }, []);
@@ -59,12 +70,20 @@ function ArticlesProvider({ children }) {
     return set(articleRef, data);
   }
 
+  function deleteArticle() {
+    const articleRef = ref(db, `articles/${postIdToDelete}`);
+    return remove(articleRef);
+  }
+
   const value = {
     articles,
     uploadArticle,
     editedArticleId,
     setEditedArticleId,
     updateArticle,
+    postIdToDelete,
+    setPostIdToDelete,
+    deleteArticle,
   };
 
   return (

@@ -24,7 +24,7 @@ function ArticleCard(props) {
       </Link>
       <div className="p-5 pt-6">
         <Link to={`/articles/${props.id}`}>
-          <h3 className="mb-3 font-serif text-xl font-medium leading-tight text-gray-700">
+          <h3 className="mb-4 font-serif text-base font-medium leading-tight text-gray-800">
             {props.title}
           </h3>
         </Link>

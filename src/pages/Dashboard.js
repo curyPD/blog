@@ -15,6 +15,7 @@ import {
   HiOutlinePencil,
   HiOutlineDocumentAdd,
   HiOutlineLightBulb,
+  HiOutlineX,
 } from "react-icons/hi";
 
 import { app } from "../firebase";
@@ -23,6 +24,7 @@ import {
   ref as storage_ref,
   getDownloadURL,
   uploadBytesResumable,
+  deleteObject,
 } from "firebase/storage";
 import { useEffect } from "react";
 
@@ -34,6 +36,7 @@ function Dashboard() {
   const [activePopup, setActivePopup] = useState(null);
   const [overlayShown, setOverlayShown] = useState(false);
   const [dashboardMode, setDashboardMode] = useState("add");
+  // const [warningWindowOpen, setWarningWindowOpen] = useState(false)
 
   const [fileMessage, setFileMessage] = useState(null);
   const [title, setTitle] = useState("");
@@ -50,6 +53,9 @@ function Dashboard() {
     articles,
     editedArticleId,
     setEditedArticleId,
+    postIdToDelete,
+    setPostIdToDelete,
+    deleteArticle,
   } = useArticles();
 
   useEffect(() => {
@@ -155,6 +161,22 @@ function Dashboard() {
     setOverlayShown(false);
   }
 
+  async function handlePostDelete() {
+    try {
+      const articleToDelete = articles.find(
+        (article) => article.key === postIdToDelete
+      );
+      if (!articleToDelete) return;
+      const imagePath = articleToDelete.image.name;
+      const imageRef = storage_ref(storage, `files/${imagePath}`);
+      await Promise.all([deleteObject(imageRef), deleteArticle()]);
+      // await deleteObject(imageRef);
+      // await deleteArticle();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   const tableRows = articles.map((article, i, arr) => {
     let formattedDate;
     if (article.updated) {
@@ -198,6 +220,7 @@ function Dashboard() {
           popupOpen={i === activePopup}
           setDashboardMode={setDashboardMode}
           setEditedArticleId={() => setEditedArticleId(article.key)}
+          setPostIdToDelete={() => setPostIdToDelete(article.key)}
           scrollToSection={() =>
             workshopSectionRef.current.scrollIntoView({ behavior: "smooth" })
           }
@@ -213,6 +236,31 @@ function Dashboard() {
           className="absolute left-0 top-0 z-10 h-full w-full"
           onClick={closePopup}
         ></div>
+      )}
+
+      {postIdToDelete && (
+        <>
+          <div
+            className="absolute left-0 top-0 z-10 h-full w-full  bg-gray-900/70 backdrop-blur-sm"
+            onClick={() => setPostIdToDelete("")}
+          ></div>
+          <div className="fixed top-1/2 left-1/2 z-30 w-4/5 max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white py-6 px-4 shadow-lg">
+            <button
+              onClick={() => setPostIdToDelete("")}
+              className="absolute top-2 right-2 flex items-center justify-center"
+            >
+              <HiOutlineX className="text-2xl text-gray-700" />
+            </button>
+            <h5 className="mb-3 font-sans text-base font-semibold text-gray-800">
+              Are you sure you want to delete this post?
+            </h5>
+            <p className="mb-5 text-xs text-gray-500">
+              Post Id: <span className="text-gray-800">{postIdToDelete}</span>
+            </p>
+            <button onClick={handlePostDelete}>Delete</button>
+            <button onClick={() => setPostIdToDelete("")}>Cancel</button>
+          </div>
+        </>
       )}
 
       <section className="pb-16 pt-12">
