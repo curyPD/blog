@@ -22,8 +22,7 @@ export function useAuth() {
 }
 
 function AuthProvider({ children }) {
-  const [curUser, setCurUser] = useState(null);
-
+  const [curUser, setCurUser] = useState(auth.currentUser);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setCurUser(user);
