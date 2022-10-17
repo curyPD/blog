@@ -9,7 +9,7 @@ function ProtectedRoute({ children }) {
     console.log(curUser);
     if (!curUser) return;
     curUser.uid !== "FHkXeKqFiNX6CEMoGInSoMiYelk2" && navigate("/");
-  }, [curUser]);
+  }, [curUser, navigate]);
 
   if (!curUser || curUser?.uid === "FHkXeKqFiNX6CEMoGInSoMiYelk2") {
     return children;
