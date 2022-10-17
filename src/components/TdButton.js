@@ -28,7 +28,7 @@ function TdButton(props) {
             </Link>
             <button
               onClick={() => {
-                props.setDashboardMode("edit");
+                // props.setDashboardMode("edit");
                 props.closePopup();
                 props.setEditedArticleId();
                 props.scrollToSection();

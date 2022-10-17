@@ -16,6 +16,7 @@ import {
   HiOutlineDocumentAdd,
   HiOutlineLightBulb,
   HiOutlineX,
+  HiOutlineExclamation,
 } from "react-icons/hi";
 
 import { app } from "../firebase";
@@ -35,8 +36,6 @@ function Dashboard() {
   const [trImageLoaded, setTrImageLoaded] = useState(false);
   const [activePopup, setActivePopup] = useState(null);
   const [overlayShown, setOverlayShown] = useState(false);
-  const [dashboardMode, setDashboardMode] = useState("add");
-  // const [warningWindowOpen, setWarningWindowOpen] = useState(false)
 
   const [fileMessage, setFileMessage] = useState(null);
   const [title, setTitle] = useState("");
@@ -63,21 +62,22 @@ function Dashboard() {
   }, [trImageLoaded]);
 
   useEffect(() => {
-    if (dashboardMode === "add") {
-      return init();
-    }
-    if (dashboardMode === "edit") {
+    console.log(editedArticleId);
+    if (!editedArticleId) {
+      init();
+    } else {
       const editedArticle = articles.find(
         (article) => article.key === editedArticleId
       );
-      if (!editedArticle) {
-        return setDashboardMode("add");
-      }
       setTitle(editedArticle.title);
       setImage({ ...editedArticle.image });
       editorRef.current.setContent(editedArticle.content);
     }
-  }, [editedArticleId, dashboardMode]);
+  }, [editedArticleId]);
+
+  useEffect(() => {
+    console.log(postIdToDelete);
+  }, [postIdToDelete]);
 
   function uploadImage(file) {
     console.log(file);
@@ -118,7 +118,6 @@ function Dashboard() {
       }
     );
   }
-
   async function handleAddPost() {
     const content = editorRef.current.getContent();
     if (!content) return;
@@ -145,6 +144,20 @@ function Dashboard() {
     postsSectionRef.current.scrollIntoView({ behavior: "smooth" });
   }
 
+  async function handleDeletePost() {
+    try {
+      const articleToDelete = articles.find(
+        (article) => article.key === postIdToDelete
+      );
+      if (!articleToDelete) return;
+      const imagePath = articleToDelete.image?.name;
+      const imageRef = storage_ref(storage, `files/${imagePath}`);
+      await Promise.all([deleteObject(imageRef), deleteArticle()]);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   function init() {
     setTitle("");
     setImage({});
@@ -159,22 +172,6 @@ function Dashboard() {
   function closePopup() {
     setActivePopup(null);
     setOverlayShown(false);
-  }
-
-  async function handlePostDelete() {
-    try {
-      const articleToDelete = articles.find(
-        (article) => article.key === postIdToDelete
-      );
-      if (!articleToDelete) return;
-      const imagePath = articleToDelete.image.name;
-      const imageRef = storage_ref(storage, `files/${imagePath}`);
-      await Promise.all([deleteObject(imageRef), deleteArticle()]);
-      // await deleteObject(imageRef);
-      // await deleteArticle();
-    } catch (err) {
-      console.error(err);
-    }
   }
 
   const tableRows = articles.map((article, i, arr) => {
@@ -194,12 +191,14 @@ function Dashboard() {
     return (
       <tr key={article.key} {...itemProps}>
         <td className="py-2 px-3">
-          <img
-            src={article.image.url}
-            alt=""
-            className="w-16 max-w-none rounded-sm"
-            onLoad={i === 0 ? () => setTrImageLoaded(true) : undefined}
-          />
+          {article.image && (
+            <img
+              src={article.image.url}
+              alt=""
+              className="w-16 max-w-none rounded-sm"
+              onLoad={i === 0 ? () => setTrImageLoaded(true) : undefined}
+            />
+          )}
         </td>
         <td className="py-2 px-3 font-serif text-xs font-medium text-gray-600">
           {article.title}
@@ -218,7 +217,6 @@ function Dashboard() {
           showPopup={() => showPopup(i)}
           closePopup={closePopup}
           popupOpen={i === activePopup}
-          setDashboardMode={setDashboardMode}
           setEditedArticleId={() => setEditedArticleId(article.key)}
           setPostIdToDelete={() => setPostIdToDelete(article.key)}
           scrollToSection={() =>
@@ -241,24 +239,42 @@ function Dashboard() {
       {postIdToDelete && (
         <>
           <div
-            className="absolute left-0 top-0 z-10 h-full w-full  bg-gray-900/70 backdrop-blur-sm"
+            className="absolute left-0 top-0 z-10 h-full w-full  bg-gray-900/80 "
             onClick={() => setPostIdToDelete("")}
           ></div>
-          <div className="fixed top-1/2 left-1/2 z-30 w-4/5 max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white py-6 px-4 shadow-lg">
+          <div className="fixed top-1/2 left-1/2 z-30 w-5/6 max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white px-5 py-5 shadow-lg">
             <button
               onClick={() => setPostIdToDelete("")}
               className="absolute top-2 right-2 flex items-center justify-center"
             >
-              <HiOutlineX className="text-2xl text-gray-700" />
+              <HiOutlineX className="text-lg text-gray-700" />
             </button>
-            <h5 className="mb-3 font-sans text-base font-semibold text-gray-800">
-              Are you sure you want to delete this post?
+            <h5 className="mb-4 font-sans text-base font-medium text-gray-800">
+              Delete post
             </h5>
-            <p className="mb-5 text-xs text-gray-500">
+            <div className="mb-5 flex gap-2 rounded bg-red-100 py-2 px-3 text-red-800">
+              <HiOutlineExclamation className="shrink-0 text-lg" />
+              <p className="self-center text-xs font-medium">
+                After you delete a post, it cannot be undeleted.
+              </p>
+            </div>
+            <p className="mb-7 text-xs text-gray-500">
               Post Id: <span className="text-gray-800">{postIdToDelete}</span>
             </p>
-            <button onClick={handlePostDelete}>Delete</button>
-            <button onClick={() => setPostIdToDelete("")}>Cancel</button>
+            <div className="flex items-center justify-end gap-2">
+              <button
+                className="rounded-sm bg-white py-1.5 px-3 font-sans text-xs font-medium text-gray-600 transition-colors hover:bg-gray-200 hover:text-gray-700"
+                onClick={() => setPostIdToDelete("")}
+              >
+                Cancel
+              </button>
+              <button
+                className="rounded-sm bg-red-700 py-1.5 px-3 font-sans text-xs font-medium text-red-50 transition-colors hover:bg-red-800"
+                onClick={handleDeletePost}
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </>
       )}
@@ -267,49 +283,51 @@ function Dashboard() {
         <PrimaryHeading text="It's time to share knowledge with the world." />
       </section>
 
-      <section ref={postsSectionRef} className="bg-white pt-4 pb-12">
-        <SecondaryHeading sText="your posts" hText="Review all your work" />
-        <div className="container mx-auto px-4">
-          <div className="relative mx-auto mb-5 w-full max-w-3xl">
-            <table className="block w-full border-collapse overflow-x-auto overflow-y-visible rounded-sm border border-gray-200">
-              <thead className="whitespace-nowrap border-b border-gray-200 bg-gray-100">
-                <tr>
-                  <th className="py-2 px-3 text-left text-xs font-normal text-gray-700">
-                    Image
-                  </th>
-                  <th className="py-2 px-3 text-left text-xs font-normal text-gray-700">
-                    Title
-                  </th>
-                  <th className="py-2 px-3 text-left text-xs font-normal text-gray-700">
-                    Article Id
-                  </th>
-                  <th className="w-full py-2 px-3 text-left text-xs font-normal text-gray-700">
-                    Last Updated
-                  </th>
-                  <th className="py-2 px-3"></th>
-                </tr>
-              </thead>
-              <tbody className="whitespace-nowrap">{tableRows}</tbody>
-            </table>
+      {articles.length !== 0 && (
+        <section ref={postsSectionRef} className="bg-white pt-4 pb-12">
+          <SecondaryHeading sText="your posts" hText="Review all your work" />
+          <div className="container mx-auto px-4">
+            <div className="relative mx-auto mb-5 w-full max-w-3xl">
+              <table className="block w-full border-collapse overflow-x-auto overflow-y-visible rounded-sm border border-gray-200">
+                <thead className="whitespace-nowrap border-b border-gray-200 bg-gray-100">
+                  <tr>
+                    <th className="py-2 px-3 text-left text-xs font-normal text-gray-700">
+                      Image
+                    </th>
+                    <th className="py-2 px-3 text-left text-xs font-normal text-gray-700">
+                      Title
+                    </th>
+                    <th className="py-2 px-3 text-left text-xs font-normal text-gray-700">
+                      Article Id
+                    </th>
+                    <th className="w-full py-2 px-3 text-left text-xs font-normal text-gray-700">
+                      Last Updated
+                    </th>
+                    <th className="py-2 px-3"></th>
+                  </tr>
+                </thead>
+                <tbody className="whitespace-nowrap">{tableRows}</tbody>
+              </table>
+            </div>
+            <div className="mx-auto max-w-3xl">
+              <Button
+                type="button"
+                text="add new post"
+                outline={true}
+                clickHandler={() => {
+                  setEditedArticleId("");
+                  workshopSectionRef.current.scrollIntoView({
+                    behavior: "smooth",
+                  });
+                }}
+              />
+            </div>
           </div>
-          <div className="mx-auto max-w-3xl">
-            <Button
-              type="button"
-              text="add new post"
-              outline={true}
-              clickHandler={() => {
-                setDashboardMode("add");
-                workshopSectionRef.current.scrollIntoView({
-                  behavior: "smooth",
-                });
-              }}
-            />
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section ref={workshopSectionRef} className="bg-white pt-4 pb-12">
-        {dashboardMode === "add" ? (
+        {!editedArticleId ? (
           <SecondaryHeading sText="add post" hText="Let's get creative" />
         ) : (
           <SecondaryHeading sText="edit post" hText="Let's make some changes" />
@@ -318,7 +336,7 @@ function Dashboard() {
           <div className="mb-8">
             <QuaternaryHeading
               text={
-                dashboardMode === "add"
+                !editedArticleId
                   ? "First, add a catchy title"
                   : "Change the title"
               }
@@ -346,7 +364,7 @@ function Dashboard() {
           <div className="mb-6">
             <QuaternaryHeading
               text={
-                dashboardMode === "add"
+                !editedArticleId
                   ? "Next, select a beautiful image"
                   : "Choose a different image"
               }
@@ -404,7 +422,7 @@ function Dashboard() {
         <section className="container mx-auto mb-12 px-4">
           <QuaternaryHeading
             text={
-              dashboardMode === "add"
+              !editedArticleId
                 ? "Finally, write something interesting"
                 : "Make changes to the content"
             }
@@ -442,9 +460,7 @@ function Dashboard() {
             <Button
               type="button"
               text="upload"
-              clickHandler={
-                dashboardMode === "add" ? handleAddPost : handleEditPost
-              }
+              clickHandler={!editedArticleId ? handleAddPost : handleEditPost}
             />
           </div>
         </section>

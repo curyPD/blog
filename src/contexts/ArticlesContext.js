@@ -24,7 +24,7 @@ function ArticlesProvider({ children }) {
   const [postIdToDelete, setPostIdToDelete] = useState("");
 
   useEffect(() => {
-    onChildAdded(ref(db, "articles"), (data) => {
+    return onChildAdded(ref(db, "articles"), (data) => {
       const { key } = data;
       const val = data.val();
       console.log(key, val);
@@ -38,8 +38,10 @@ function ArticlesProvider({ children }) {
         ];
       });
     });
-    onChildChanged(ref(db, "articles"), (data) => {
-      setEditedArticleId("");
+  }, []);
+
+  useEffect(() => {
+    return onChildChanged(ref(db, "articles"), (data) => {
       const { key } = data;
       const val = data.val();
       console.log(key, val);
@@ -48,17 +50,24 @@ function ArticlesProvider({ children }) {
           article.key === key ? { key, ...val } : article
         );
       });
+      setEditedArticleId("");
     });
-    onChildRemoved(ref(db, "articles"), (data) => {
-      setPostIdToDelete("");
+  }, []);
+
+  useEffect(() => {
+    return onChildRemoved(ref(db, "articles"), (data) => {
       const { key } = data;
-      console.log(key);
+      const val = data.val();
+      console.log(key, val);
       setArticles((prevArticles) => {
         return prevArticles.filter((article) => article.key !== key);
       });
+      if (key === editedArticleId) {
+        setEditedArticleId("");
+      }
+      setPostIdToDelete("");
     });
-  }, []);
-  console.log(articles);
+  }, [editedArticleId]);
 
   function uploadArticle(data) {
     const newArticleRef = push(ref(db, "articles"));
