@@ -73,7 +73,7 @@ function Dashboard() {
       setImage({ ...editedArticle.image });
       editorRef.current.setContent(editedArticle.content);
     }
-  }, [editedArticleId]);
+  }, [editedArticleId, articles]);
 
   useEffect(() => {
     console.log(postIdToDelete);
