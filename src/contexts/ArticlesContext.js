@@ -8,6 +8,7 @@ import {
   onChildChanged,
   onChildRemoved,
   remove,
+  update,
 } from "firebase/database";
 import { app } from "../firebase";
 
@@ -22,6 +23,8 @@ function ArticlesProvider({ children }) {
   const [articles, setArticles] = useState([]);
   const [editedArticleId, setEditedArticleId] = useState("");
   const [postIdToDelete, setPostIdToDelete] = useState("");
+  const [curOpenArticleId, setCurOpenArticleId] = useState("");
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     return onChildAdded(ref(db, "articles"), (data) => {
@@ -30,11 +33,11 @@ function ArticlesProvider({ children }) {
       console.log(key, val);
       setArticles((prevArticles) => {
         return [
-          ...prevArticles,
           {
             key,
             ...val,
           },
+          ...prevArticles,
         ];
       });
     });
@@ -69,9 +72,25 @@ function ArticlesProvider({ children }) {
     });
   }, [editedArticleId]);
 
+  useEffect(() => {
+    setComments([]);
+    if (!curOpenArticleId) return;
+    return onChildAdded(ref(db, `comments/${curOpenArticleId}`), (data) => {
+      const { key } = data;
+      const val = data.val();
+      console.log(key, val);
+      setComments((prevComments) => {
+        return [{ key, ...val }, ...prevComments];
+      });
+    });
+  }, [curOpenArticleId]);
+
   function uploadArticle(data) {
-    const newArticleRef = push(ref(db, "articles"));
-    return set(newArticleRef, data);
+    const newArticleKey = push(ref(db, "articles")).key;
+    const updates = {};
+    updates[`articles/${newArticleKey}`] = data;
+    updates[`comments/${newArticleKey}`] = {};
+    return update(ref(db), updates);
   }
 
   function updateArticle(data) {
@@ -80,8 +99,23 @@ function ArticlesProvider({ children }) {
   }
 
   function deleteArticle() {
-    const articleRef = ref(db, `articles/${postIdToDelete}`);
-    return remove(articleRef);
+    const updates = {};
+    updates[`articles/${postIdToDelete}`] = null;
+    updates[`comments/${postIdToDelete}`] = null;
+    return update(ref(db), updates);
+  }
+
+  function addComment(author, profilePicture, uid, comment, date, articleId) {
+    console.log(author, profilePicture, comment, date, articleId);
+    const newCommentRef = push(ref(db, `comments/${articleId}`));
+    const commentData = {
+      content: comment,
+      upload: date,
+      author,
+      uid,
+      profilePicture: profilePicture || "",
+    };
+    return set(newCommentRef, commentData);
   }
 
   const value = {
@@ -93,6 +127,9 @@ function ArticlesProvider({ children }) {
     postIdToDelete,
     setPostIdToDelete,
     deleteArticle,
+    comments,
+    addComment,
+    setCurOpenArticleId,
   };
 
   return (

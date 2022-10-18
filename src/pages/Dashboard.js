@@ -122,7 +122,14 @@ function Dashboard() {
     const content = editorRef.current.getContent();
     if (!content) return;
     const now = new Date().toISOString();
-    await uploadArticle({ title, image, content, upload: now });
+    await uploadArticle({
+      title,
+      image,
+      content,
+      upload: now,
+      likeCount: 0,
+      liked: {},
+    });
     init();
     postsSectionRef.current.scrollIntoView({ behavior: "smooth" });
   }
@@ -132,13 +139,14 @@ function Dashboard() {
     const editedArticle = articles.find(
       (article) => article.key === editedArticleId
     );
-    const created = editedArticle?.upload ?? "";
+    // const created = editedArticle?.upload ?? "";
     const now = new Date().toISOString();
     await updateArticle({
+      ...editedArticle,
       title,
       image,
       content,
-      upload: created,
+      // upload: created,
       updated: now,
     });
     postsSectionRef.current.scrollIntoView({ behavior: "smooth" });
@@ -174,7 +182,7 @@ function Dashboard() {
     setOverlayShown(false);
   }
 
-  const tableRows = articles.map((article, i, arr) => {
+  const tableRows = [...articles].reverse().map((article, i, arr) => {
     let formattedDate;
     if (article.updated) {
       const date = new Date(article.updated);
@@ -283,32 +291,45 @@ function Dashboard() {
         <PrimaryHeading text="It's time to share knowledge with the world." />
       </section>
 
-      {articles.length !== 0 && (
-        <section ref={postsSectionRef} className="bg-white pt-4 pb-12">
-          <SecondaryHeading sText="your posts" hText="Review all your work" />
-          <div className="container mx-auto px-4">
-            <div className="relative mx-auto mb-5 w-full max-w-3xl">
-              <table className="block w-full border-collapse overflow-x-auto overflow-y-visible rounded-sm border border-gray-200">
-                <thead className="whitespace-nowrap border-b border-gray-200 bg-gray-100">
+      <section ref={postsSectionRef} className="bg-white pt-4 pb-12">
+        <SecondaryHeading sText="your posts" hText="Review all your work" />
+        <div className="container mx-auto px-4">
+          <div className="relative mx-auto mb-5 w-full max-w-3xl">
+            <table className="block w-full border-collapse overflow-x-auto overflow-y-visible rounded-sm border border-gray-200">
+              <thead className="whitespace-nowrap border-b border-gray-200 bg-gray-100">
+                <tr>
+                  <th className="py-2 px-3 text-left text-xs font-normal text-gray-700">
+                    Image
+                  </th>
+                  <th className="py-2 px-3 text-left text-xs font-normal text-gray-700">
+                    Title
+                  </th>
+                  <th className="py-2 px-3 text-left text-xs font-normal text-gray-700">
+                    Article Id
+                  </th>
+                  <th className="w-full py-2 px-3 text-left text-xs font-normal text-gray-700">
+                    Last Updated
+                  </th>
+                  <th className="py-2 px-3"></th>
+                </tr>
+              </thead>
+              <tbody className="whitespace-nowrap">
+                {tableRows.length !== 0 ? (
+                  tableRows
+                ) : (
                   <tr>
-                    <th className="py-2 px-3 text-left text-xs font-normal text-gray-700">
-                      Image
-                    </th>
-                    <th className="py-2 px-3 text-left text-xs font-normal text-gray-700">
-                      Title
-                    </th>
-                    <th className="py-2 px-3 text-left text-xs font-normal text-gray-700">
-                      Article Id
-                    </th>
-                    <th className="w-full py-2 px-3 text-left text-xs font-normal text-gray-700">
-                      Last Updated
-                    </th>
-                    <th className="py-2 px-3"></th>
+                    <td
+                      colSpan="5"
+                      className="py-4 px-3 text-center text-xs text-gray-500"
+                    >
+                      There are no articles yet
+                    </td>
                   </tr>
-                </thead>
-                <tbody className="whitespace-nowrap">{tableRows}</tbody>
-              </table>
-            </div>
+                )}
+              </tbody>
+            </table>
+          </div>
+          {articles.length !== 0 && (
             <div className="mx-auto max-w-3xl">
               <Button
                 type="button"
@@ -322,9 +343,9 @@ function Dashboard() {
                 }}
               />
             </div>
-          </div>
-        </section>
-      )}
+          )}
+        </div>
+      </section>
 
       <section ref={workshopSectionRef} className="bg-white pt-4 pb-12">
         {!editedArticleId ? (
