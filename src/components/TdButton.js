@@ -12,7 +12,10 @@ function TdButton(props) {
   return (
     <>
       <td className="py-2 px-3">
-        <button onClick={props.showPopup}>
+        <button
+          onClick={props.showPopup}
+          className="rounded-full focus:outline-none focus-visible:ring"
+        >
           <HiOutlineDotsVertical className="text-lg text-gray-500" />
         </button>
         {props.popupOpen && (
@@ -21,19 +24,18 @@ function TdButton(props) {
             className="absolute top-full right-4 z-20 flex w-24 flex-col items-stretch rounded border border-gray-200 bg-white py-1 shadow-md"
           >
             <Link
-              className="py-2 px-3 text-left text-xs text-gray-700 hover:bg-gray-100"
+              className="py-2 px-3 text-left text-xs text-gray-700 hover:bg-gray-100 focus:outline-none focus-visible:ring"
               to={`/articles/${props.id}`}
             >
               See post
             </Link>
             <button
               onClick={() => {
-                // props.setDashboardMode("edit");
                 props.closePopup();
                 props.setEditedArticleId();
                 props.scrollToSection();
               }}
-              className="py-2 px-3 text-left text-xs text-gray-700 hover:bg-gray-100"
+              className="py-2 px-3 text-left text-xs text-gray-700 hover:bg-gray-100 focus:outline-none focus-visible:ring"
             >
               Edit post
             </button>
@@ -42,7 +44,7 @@ function TdButton(props) {
                 props.setPostIdToDelete();
                 props.closePopup();
               }}
-              className="py-2 px-3 text-left text-xs text-gray-700 hover:bg-gray-100"
+              className="py-2 px-3 text-left text-xs text-gray-700 hover:bg-gray-100 focus:outline-none focus-visible:ring"
             >
               Delete post
             </button>

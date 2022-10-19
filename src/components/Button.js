@@ -8,7 +8,7 @@ function Button({ type, text, clickHandler, outline }) {
   return (
     <button
       type={type}
-      className={`w-full rounded-sm border border-blue-600 px-4 py-1 font-sans text-xs font-medium capitalize transition-colors focus:outline-none focus:ring focus:ring-offset-1 ${styles}`}
+      className={`w-full rounded-sm border border-blue-600 px-4 py-1 font-sans text-xs font-medium capitalize transition-colors focus:outline-none focus-visible:ring focus-visible:ring-offset-1 ${styles}`}
       onClick={clickHandler ? () => clickHandler() : undefined}
     >
       {text}
