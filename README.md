@@ -7,10 +7,12 @@ The site lacks several features I was initially planning on implementing, so I'm
 ### Features yet to add:
 
 - Google auth😎 --------------------> ✅
-- Leaving likes under posts💚 ------> ⏳
-- Writing comments✉ ----------------> ⏳
+- Leaving likes under posts💚 ------> ✅
+- Writing comments✉ ----------------> ✅
 - Editing posts (for admin)📝 ------> ✅
 - Deleting posts (for admin)🚮 -----> ✅
 - Improve existing features👷‍♂️ ------> ✅
+- Optimize for bigger screens💻 ----> ⏳
+- Store users in database as well --> ⏳
 
 The blog is about language learning, by the way
