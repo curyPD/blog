@@ -4,16 +4,24 @@ import { useArticles } from "../contexts/ArticlesContext";
 import { useAuth } from "../contexts/AuthContext";
 import Button from "../components/Button";
 import Comment from "../components/Comment";
+import { HiHeart, HiOutlineHeart } from "react-icons/hi";
 
 function BlogPost() {
   const [comment, setComment] = useState("");
   const { articleId } = useParams();
-  const { articles, comments, addComment, setCurOpenArticleId } = useArticles();
+  const {
+    articles,
+    comments,
+    addComment,
+    setCurOpenArticleId,
+    addLike,
+    dislike,
+  } = useArticles();
   const { curUser } = useAuth();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  // }, []);
 
   useEffect(() => {
     setCurOpenArticleId(articleId);
@@ -42,9 +50,24 @@ function BlogPost() {
       curUser.photoURL,
       curUser.uid,
       comment,
-      now,
-      articleId
+      now
     );
+  }
+
+  async function handleAddLike() {
+    try {
+      await addLike(curUser.uid);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function handleDislike() {
+    try {
+      await dislike(curUser.uid);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   const commentElements = comments.map((comment) => (
@@ -79,10 +102,31 @@ function BlogPost() {
             />
           </div>
           <div
-            className="prose prose-sm prose-gray font-serif prose-headings:font-semibold prose-headings:text-gray-800"
+            className="prose prose-sm prose-gray mb-4 font-serif prose-headings:font-semibold prose-headings:text-gray-800"
             dangerouslySetInnerHTML={{ __html: curArticle.content }}
           ></div>
-          <div className="mt-7 h-[1px] w-1/2 bg-blue-400"></div>
+          <div className="flex items-center gap-1.5">
+            <button
+              disabled={!curUser}
+              onClick={
+                curArticle.likes?.[curUser?.uid] ? handleDislike : handleAddLike
+              }
+              className={`rounded-full focus:outline-none focus-visible:ring focus-visible:ring-offset-1 ${
+                !curUser
+                  ? "relative after:absolute after:top-1/2 after:left-full after:hidden after:w-28 after:-translate-y-1/2 after:translate-x-1 after:rounded-sm after:border after:border-gray-200 after:bg-white after:p-1 after:text-[10px] after:text-gray-500 after:shadow-sm after:content-['Log_in_to_leave_a_like'] hover:after:block"
+                  : ""
+              }`}
+            >
+              {!curUser || !curArticle.likes?.[curUser?.uid] ? (
+                <HiOutlineHeart className="text-2xl text-gray-400" />
+              ) : (
+                <HiHeart className="text-2xl text-blue-400" />
+              )}
+            </button>
+            <p className="text-xs text-gray-400">
+              {curArticle.likes ? Object.keys(curArticle.likes).length : 0}
+            </p>
+          </div>
         </div>
       </section>
       <section className="bg-white pt-2 pb-20">
