@@ -19,7 +19,7 @@ function Navbar() {
         <span>Home</span>
       </NavLink>
 
-      {curUser && curUser.uid === "FHkXeKqFiNX6CEMoGInSoMiYelk2" && (
+      {curUser && curUser.uid === process.env.REACT_APP_ADMIN_UID && (
         <NavLink
           className={({ isActive }) =>
             isActive

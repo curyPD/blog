@@ -9,8 +9,8 @@ function ArticleCard(props) {
   }).format(date);
 
   return (
-    <article className="overflow-hidden rounded-lg shadow-md">
-      <Link to={`/articles/${props.id}`}>
+    <article className="overflow-hidden rounded-md shadow-md">
+      <Link to={`/articles/${props.id}`} className="focus:outline-none">
         <div className="overflow-hidden">
           <img
             src={props.image?.url}
@@ -20,7 +20,7 @@ function ArticleCard(props) {
         </div>
       </Link>
       <div className="p-5 pt-6">
-        <Link to={`/articles/${props.id}`}>
+        <Link to={`/articles/${props.id}`} className="focus:outline-none">
           <h3 className="mb-3 font-serif text-lg font-medium leading-tight text-gray-800">
             {props.title}
           </h3>
@@ -29,10 +29,10 @@ function ArticleCard(props) {
           className="mb-5 font-serif text-sm text-gray-600 line-clamp-3"
           dangerouslySetInnerHTML={{ __html: props.content }}
         ></p>
-        <div className="mb-2 text-left font-serif text-xs text-gray-500">
+        <div className="mb-2.5 text-left font-serif text-xs text-gray-400">
           <span>{formattedDate}</span>
         </div>
-        <Link to={`/articles/${props.id}`}>
+        <Link to={`/articles/${props.id}`} className="group focus:outline-none">
           <Button type="button" text="read" />
         </Link>
       </div>

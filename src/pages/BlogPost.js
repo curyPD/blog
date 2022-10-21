@@ -42,16 +42,21 @@ function BlogPost() {
   }
 
   async function handleSubmit(e) {
-    e.preventDefault();
-    if (!comment) return;
-    const now = new Date().toISOString();
-    await addComment(
-      curUser.displayName,
-      curUser.photoURL,
-      curUser.uid,
-      comment,
-      now
-    );
+    try {
+      e.preventDefault();
+      if (!comment) return;
+      const now = new Date().toISOString();
+      await addComment(
+        curUser.displayName,
+        curUser.photoURL,
+        curUser.uid,
+        comment,
+        now
+      );
+      setComment("");
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   async function handleAddLike() {
@@ -113,7 +118,7 @@ function BlogPost() {
               }
               className={`rounded-full focus:outline-none focus-visible:ring focus-visible:ring-offset-1 ${
                 !curUser
-                  ? "relative after:absolute after:top-1/2 after:left-full after:hidden after:w-28 after:-translate-y-1/2 after:translate-x-1 after:rounded-sm after:border after:border-gray-200 after:bg-white after:p-1 after:text-[10px] after:text-gray-500 after:shadow-sm after:content-['Log_in_to_leave_a_like'] hover:after:block"
+                  ? "relative after:pointer-events-none after:invisible after:absolute after:top-1/2 after:left-full after:w-28 after:translate-x-1 after:rounded after:border after:border-gray-200 after:bg-gray-800/80 after:p-1 after:text-center after:text-[10px] after:text-white after:opacity-0 after:shadow-sm after:transition-all after:content-['Log_in_to_leave_a_like'] hover:after:visible hover:after:-translate-y-1/2 hover:after:opacity-100"
                   : ""
               }`}
             >

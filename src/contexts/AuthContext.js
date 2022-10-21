@@ -22,9 +22,9 @@ export function useAuth() {
 }
 
 function AuthProvider({ children }) {
-  const [curUser, setCurUser] = useState(auth.currentUser);
+  const [curUser, setCurUser] = useState("initialization");
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    return onAuthStateChanged(auth, (user) => {
       setCurUser(user);
       console.log(user);
     });

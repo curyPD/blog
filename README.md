@@ -13,6 +13,5 @@ The site lacks several features I was initially planning on implementing, so I'm
 - Deleting posts (for admin)🚮 -----> ✅
 - Improve existing features👷‍♂️ ------> ✅
 - Optimize for bigger screens💻 ----> ⏳
-- Store users in database as well --> ⏳
 
 The blog is about language learning, by the way
