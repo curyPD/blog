@@ -9,9 +9,10 @@ function Footer() {
   }, []);
 
   return (
-    <footer className="mt-auto bg-blue-900 py-3">
-      <p className="text-center font-sans text-[10px] text-blue-50">
-        Copyright &copy; <span>{year}</span> by curypd. All rights reserved.
+    <footer className="mt-auto bg-blue-100 py-3">
+      <p className="text-center font-sans text-[10px] text-blue-600">
+        Copyright &copy; <span>{year}</span> by Roman Druzhinin. All rights
+        reserved.
       </p>
     </footer>
   );

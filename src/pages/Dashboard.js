@@ -245,7 +245,7 @@ function Dashboard() {
       {postIdToDelete && (
         <>
           <div
-            className="absolute left-0 top-0 z-10 h-full w-full  bg-gray-900/80 "
+            className="absolute left-0 top-0 z-10 h-full w-full bg-black/20 backdrop-blur-sm"
             onClick={() => setPostIdToDelete("")}
           ></div>
           <div className="fixed top-1/2 left-1/2 z-30 w-5/6 max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white px-5 py-5 shadow-lg">

@@ -6,9 +6,9 @@ import Footer from "../components/Footer";
 
 function SharedLayout() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="relative flex min-h-screen flex-col">
       <Header />
-      <main className="relative flex-1 bg-blue-100/70">
+      <main className="flex-1 bg-blue-100/70">
         <Outlet />
       </main>
       <Footer />
