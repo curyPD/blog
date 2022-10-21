@@ -23,7 +23,7 @@ function Comment({ author, profilePicture, upload, content }) {
       )}
       <p className="font-sans text-xs font-semibold text-gray-700">{author}</p>
       <p className="font-sans text-xs text-gray-600">{content}</p>
-      <p className="justify-self-end font-sans text-[10px] text-gray-400">
+      <p className="justify-self-end font-sans text-[10px] text-gray-400/80">
         {formattedDate}
       </p>
     </article>

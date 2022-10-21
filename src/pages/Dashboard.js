@@ -139,14 +139,12 @@ function Dashboard() {
     const editedArticle = articles.find(
       (article) => article.key === editedArticleId
     );
-    // const created = editedArticle?.upload ?? "";
     const now = new Date().toISOString();
     await updateArticle({
       ...editedArticle,
       title,
       image,
       content,
-      // upload: created,
       updated: now,
     });
     postsSectionRef.current.scrollIntoView({ behavior: "smooth" });

@@ -5,13 +5,17 @@ import { useAuth } from "../contexts/AuthContext";
 function ProtectedRoute({ children }) {
   const { curUser } = useAuth();
   const navigate = useNavigate();
+
   useEffect(() => {
     console.log(curUser);
-    if (!curUser) return;
-    curUser.uid !== "FHkXeKqFiNX6CEMoGInSoMiYelk2" && navigate("/");
+    if (curUser === "initialization") return;
+    curUser?.uid !== process.env.REACT_APP_ADMIN_UID && navigate("/");
   }, [curUser, navigate]);
 
-  if (!curUser || curUser?.uid === "FHkXeKqFiNX6CEMoGInSoMiYelk2") {
+  if (
+    curUser?.uid === process.env.REACT_APP_ADMIN_UID ||
+    curUser === "initialization"
+  ) {
     return children;
   }
   return <Navigate to="/" />;
