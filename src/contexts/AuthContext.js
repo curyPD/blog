@@ -26,7 +26,7 @@ function AuthProvider({ children }) {
   useEffect(() => {
     return onAuthStateChanged(auth, (user) => {
       setCurUser(user);
-      console.log(user);
+      // console.log(user);
     });
   }, []);
 

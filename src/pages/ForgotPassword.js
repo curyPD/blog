@@ -38,18 +38,18 @@ function ForgotPassword() {
   }
 
   return (
-    <section className="mb-7 px-4 py-8 sm:pt-12 md:pt-16">
+    <section className="px-4 py-8 pb-14 sm:pt-16 lg:py-20">
       <form
         onSubmit={handleSubmit}
-        className="mx-auto mb-3 max-w-xs rounded-md bg-white px-5 py-5 shadow-md sm:max-w-sm"
+        className="mx-auto mb-3 max-w-xs rounded-md bg-white px-5 py-5 shadow-md sm:max-w-sm md:mb-4 lg:max-w-md lg:px-8 lg:py-6 lg:pt-9"
       >
-        <h3 className="mb-4 font-sans text-lg font-semibold text-gray-800 sm:text-lg md:text-xl">
+        <h3 className="mb-4 font-sans text-lg font-semibold text-gray-800 md:text-xl lg:mb-6 lg:text-2xl">
           Reset Password
         </h3>
 
         <label
           htmlFor="email"
-          className="mb-1 block font-sans text-xs text-gray-700 sm:text-sm"
+          className="mb-1 block font-sans text-xs text-gray-700 md:mb-1.5 md:text-sm"
         >
           Email
         </label>
@@ -57,7 +57,7 @@ function ForgotPassword() {
           onChange={handleChange}
           name="email"
           value={inputData}
-          className="mb-4 block w-full rounded-sm border border-gray-300 bg-white py-2  px-3 font-sans text-xs text-gray-700 shadow-sm placeholder:text-gray-300 invalid:border-red-500 invalid:text-red-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:invalid:border-gray-300 focus:invalid:text-gray-700 sm:text-sm"
+          className="mb-4 block w-full rounded-sm border border-gray-300 bg-white py-2 px-3 font-sans text-xs text-gray-700 shadow-sm placeholder:text-gray-300 invalid:border-red-500 invalid:text-red-500 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400 focus:invalid:border-gray-300 focus:invalid:text-gray-700 md:mb-7 md:text-sm"
           type="email"
           id="email"
           placeholder="myemail@gmail.com"
@@ -82,7 +82,7 @@ function ForgotPassword() {
           <Button type="submit" text="reset password" />
         </div>
       </form>
-      <p className="mx-auto max-w-xs text-center font-sans text-xs sm:max-w-sm">
+      <p className="mx-auto max-w-xs text-center font-sans text-xs sm:max-w-sm md:text-sm">
         <Link className="text-blue-700 hover:underline" to="/login">
           Log In
         </Link>

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function NotFound() {
   return (
     <section className="py-14">
-      <div className="mx-auto w-5/6 max-w-lg rounded-md bg-white px-4 py-5">
+      <div className="mx-auto w-5/6 max-w-lg rounded-md bg-white px-4 py-5 md:px-8 xl:px-12">
         <h1 className="mb-3 text-center font-serif text-8xl font-bold text-gray-300">
           404
         </h1>

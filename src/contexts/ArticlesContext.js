@@ -46,7 +46,7 @@ function ArticlesProvider({ children }) {
     return onChildChanged(ref(db, "articles"), (data) => {
       const { key } = data;
       const val = data.val();
-      console.log(key, val);
+      // console.log(key, val);
       setArticles((prevArticles) => {
         return prevArticles.map((article) =>
           article.key === key ? { key, ...val } : article
@@ -60,7 +60,7 @@ function ArticlesProvider({ children }) {
     return onChildRemoved(ref(db, "articles"), (data) => {
       const { key } = data;
       const val = data.val();
-      console.log(key, val);
+      // console.log(key, val);
       setArticles((prevArticles) => {
         return prevArticles.filter((article) => article.key !== key);
       });
@@ -105,7 +105,7 @@ function ArticlesProvider({ children }) {
   }
 
   function addComment(author, profilePicture, uid, comment, date) {
-    console.log(author, profilePicture, comment, date, curOpenArticleId);
+    // console.log(author, profilePicture, comment, date, curOpenArticleId);
     const newCommentRef = push(ref(db, `comments/${curOpenArticleId}`));
     const commentData = {
       content: comment,
@@ -118,13 +118,13 @@ function ArticlesProvider({ children }) {
   }
 
   function addLike(uid) {
-    console.log(uid, curOpenArticleId);
+    // console.log(uid, curOpenArticleId);
     const likeListRef = ref(db, `articles/${curOpenArticleId}/likes`);
     return set(likeListRef, { [uid]: true });
   }
 
   function dislike(uid) {
-    console.log(uid, curOpenArticleId);
+    // console.log(uid, curOpenArticleId);
     const likeListRef = ref(db, `articles/${curOpenArticleId}/likes`);
     return set(likeListRef, { [uid]: null });
   }
