@@ -7,7 +7,7 @@ function ProtectedRoute({ children }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(curUser);
+    // console.log(curUser);
     if (curUser === "initialization") return;
     curUser?.uid !== process.env.REACT_APP_ADMIN_UID && navigate("/");
   }, [curUser, navigate]);
