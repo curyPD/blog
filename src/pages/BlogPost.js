@@ -87,7 +87,7 @@ function BlogPost() {
 
   return curArticle ? (
     <>
-      <section className="bg-white pt-9 pb-7 md:pt-12 md:pb-9 lg:pt-16 xl:pb-16 xl:pt-20">
+      <section className="bg-white pt-9 pb-7 md:pt-12 md:pb-9 lg:pt-16 xl:py-20 xl:pb-16">
         <div className="mx-auto w-11/12 max-w-lg px-5 sm:max-w-xl md:w-full lg:max-w-2xl xl:max-w-3xl">
           <h1 className="mb-8 font-serif text-3xl font-medium text-gray-700 lg:text-4xl xl:mb-10 xl:text-5xl xl:leading-[1.1]">
             {curArticle.title}
@@ -136,7 +136,7 @@ function BlogPost() {
           </div>
         </div>
       </section>
-      <section className="bg-white pt-2 pb-20">
+      <section className="bg-white pt-2 pb-20 lg:pb-24 xl:pb-36">
         <div className="mx-auto w-11/12 max-w-lg px-5 sm:max-w-xl md:w-full lg:max-w-2xl xl:max-w-3xl">
           {curUser && (
             <form onSubmit={handleSubmit}>
@@ -164,7 +164,9 @@ function BlogPost() {
               <h4 className="mb-6 font-serif text-base font-medium text-gray-700 sm:mb-7 sm:text-lg md:mb-9 md:text-xl xl:text-2xl">
                 Comments
               </h4>
-              <div className="space-y-4">{commentElements}</div>
+              <div className="space-y-4 md:space-y-5 xl:space-y-6">
+                {commentElements}
+              </div>
             </div>
           )}
         </div>

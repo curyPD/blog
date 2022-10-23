@@ -28,11 +28,11 @@ function Home() {
         </div>
       </section>
       <section
-        className="bg-white pt-8 pb-12 md:pt-11 lg:pt-20 lg:pb-16 xl:pb-20 2xl:pb-24"
+        className="bg-white pt-8 pb-20 md:pt-11 lg:pt-20 lg:pb-24 xl:pb-32 2xl:pb-36"
         id="articles"
       >
         <SecondaryHeading sText="articles" hText="Find something interesting" />
-        <div className="container mx-auto grid grid-cols-1 items-start justify-items-center gap-x-7 gap-y-9 px-4 sm:gap-y-11 md:grid-cols-2 md:justify-items-stretch md:px-7 lg:gap-x-14 lg:gap-y-16 xl:max-w-screen-xl xl:grid-cols-3 xl:gap-y-20">
+        <div className="container mx-auto grid grid-cols-1 justify-items-center gap-x-7 gap-y-9 px-4 sm:gap-y-11 md:grid-cols-2 md:justify-items-stretch md:px-7 lg:gap-x-14 lg:gap-y-16 xl:max-w-screen-xl xl:grid-cols-3 xl:gap-y-20">
           {articleCards}
         </div>
       </section>
