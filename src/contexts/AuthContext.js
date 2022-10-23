@@ -12,6 +12,9 @@ import {
 } from "firebase/auth";
 import { app } from "../firebase";
 
+import { useNavigate } from "react-router-dom";
+import { useArticles } from "./ArticlesContext";
+
 const provider = new GoogleAuthProvider();
 const auth = getAuth(app);
 
@@ -23,12 +26,18 @@ export function useAuth() {
 
 function AuthProvider({ children }) {
   const [curUser, setCurUser] = useState("initialization");
+  const { curOpenArticleId } = useArticles();
+  const navigate = useNavigate();
+
   useEffect(() => {
     return onAuthStateChanged(auth, (user) => {
       setCurUser(user);
-      // console.log(user);
+      if (!user) return;
+      navigate(`/articles/${curOpenArticleId}`);
     });
-  }, []);
+  }, [curOpenArticleId]);
+
+  console.log(curOpenArticleId);
 
   function signInWithGoogle() {
     return signInWithPopup(auth, provider);

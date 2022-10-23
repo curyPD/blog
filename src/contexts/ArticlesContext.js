@@ -141,6 +141,7 @@ function ArticlesProvider({ children }) {
     comments,
     addComment,
     setCurOpenArticleId,
+    curOpenArticleId,
     addLike,
     dislike,
   };

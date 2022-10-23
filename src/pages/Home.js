@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useArticles } from "../contexts/ArticlesContext";
 
@@ -7,7 +7,9 @@ import PrimaryHeading from "../components/PrimaryHeading";
 import SecondaryHeading from "../components/SecondaryHeading";
 
 function Home() {
-  const { articles } = useArticles();
+  const { articles, setCurOpenArticleId } = useArticles();
+
+  useEffect(() => setCurOpenArticleId(""), []);
 
   const articleCards = articles.map((article) => (
     <ArticleCard
