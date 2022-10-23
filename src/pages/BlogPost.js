@@ -20,10 +20,6 @@ function BlogPost() {
   const { curUser } = useAuth();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
     setCurOpenArticleId(articleId);
   }, [articleId]);
 
