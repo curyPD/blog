@@ -15,7 +15,7 @@ function BlogPost() {
     addComment,
     setCurOpenArticleId,
     addLike,
-    dislike,
+    unlike,
   } = useArticles();
   const { curUser } = useAuth();
 
@@ -63,9 +63,9 @@ function BlogPost() {
     }
   }
 
-  async function handleDislike() {
+  async function handleUnlike() {
     try {
-      await dislike(curUser.uid);
+      await unlike(curUser.uid);
     } catch (err) {
       console.error(err);
     }
@@ -112,7 +112,7 @@ function BlogPost() {
             <button
               disabled={!curUser}
               onClick={
-                curArticle.likes?.[curUser?.uid] ? handleDislike : handleAddLike
+                curArticle.likes?.[curUser?.uid] ? handleUnlike : handleAddLike
               }
               className={`rounded-full focus:outline-none focus-visible:ring focus-visible:ring-offset-1 ${
                 !curUser

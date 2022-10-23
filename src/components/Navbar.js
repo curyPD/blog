@@ -29,7 +29,7 @@ function Navbar() {
           <span>Home</span>
         </NavLink>
 
-        {curUser && curUser.uid === process.env.REACT_APP_ADMIN_UID && (
+        {curUser && curUser?.role?.admin && (
           <NavLink
             className={({ isActive }) =>
               isActive
@@ -91,7 +91,7 @@ function Navbar() {
               >
                 <span>Home</span>
               </NavLink>
-              {curUser && curUser.uid === process.env.REACT_APP_ADMIN_UID && (
+              {curUser && curUser?.role?.admin && (
                 <NavLink
                   className={({ isActive }) =>
                     isActive
