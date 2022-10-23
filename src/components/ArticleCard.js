@@ -21,12 +21,12 @@ function ArticleCard(props) {
       </Link>
       <div className="flex h-full flex-col p-5 pt-6 sm:p-7">
         <Link to={`/articles/${props.id}`} className="focus:outline-none">
-          <h3 className="mb-3 font-serif text-lg font-semibold leading-tight text-gray-800 sm:mb-4 sm:text-xl lg:mb-5 lg:text-2xl">
+          <h3 className="mb-3 font-serif text-lg font-semibold leading-tight text-gray-700 sm:mb-4 sm:text-xl lg:mb-5 lg:text-2xl">
             {props.title}
           </h3>
         </Link>
         <p
-          className="mb-5 flex-1 font-serif text-sm text-gray-600 line-clamp-3 sm:mb-7 sm:text-base lg:text-lg"
+          className="mb-5 flex-1 font-serif text-sm text-gray-500 line-clamp-3 sm:mb-7 sm:text-base lg:text-lg"
           dangerouslySetInnerHTML={{ __html: props.content }}
         ></p>
         <div className="mb-2.5 text-left font-serif text-xs text-gray-400 lg:mb-3 lg:text-sm">

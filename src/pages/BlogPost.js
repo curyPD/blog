@@ -121,7 +121,7 @@ function BlogPost() {
               }`}
             >
               {!curUser || !curArticle.likes?.[curUser?.uid] ? (
-                <HiOutlineHeart className="text-2xl text-gray-400 md:text-3xl xl:text-4xl" />
+                <HiOutlineHeart className="text-2xl text-blue-400 md:text-3xl xl:text-4xl" />
               ) : (
                 <HiHeart className="text-2xl text-blue-400 md:text-3xl xl:text-4xl" />
               )}

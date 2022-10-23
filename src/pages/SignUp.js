@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../contexts/AuthContext";
 
@@ -8,6 +8,7 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 import Button from "../components/Button";
 import GoogleAuthButton from "../components/GoogleAuthButton";
+import { useArticles } from "../contexts/ArticlesContext";
 
 function SignUp() {
   const [inputData, setInputData] = useState({
@@ -18,6 +19,8 @@ function SignUp() {
   });
   const [error, setError] = useState("");
   const { signUp, updateUserName, signInWithGoogle } = useAuth();
+  const navigate = useNavigate();
+  const { curOpenArticleId } = useArticles();
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -48,6 +51,7 @@ function SignUp() {
       setError("");
       const userCredential = await signUp(inputData.email, inputData.password);
       await updateUserName(userCredential.user, inputData.userName);
+      navigate(`/articles/${curOpenArticleId}`);
     } catch (err) {
       setError("Failed to sign up");
       console.error(err.message);
@@ -58,6 +62,7 @@ function SignUp() {
     try {
       setError("");
       await signInWithGoogle();
+      navigate(`/articles/${curOpenArticleId}`);
     } catch (error) {
       setError("Failed to sign in");
       console.error(error);

@@ -283,7 +283,7 @@ function Dashboard() {
         </>
       )}
 
-      <section className="pb-16 pt-12 sm:pt-14">
+      <section className="pb-16 pt-12 sm:pt-14 xl:pt-20 xl:pb-20 2xl:pt-24 2xl:pb-24">
         <PrimaryHeading text="It's time to share knowledge with the world." />
       </section>
 

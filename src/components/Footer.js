@@ -9,7 +9,7 @@ function Footer() {
   }, []);
 
   return (
-    <footer className="mt-auto bg-blue-400  py-3 lg:py-4">
+    <footer className="mt-auto bg-blue-500  py-3 lg:py-4">
       <p className="text-center font-sans text-[10px] text-white sm:text-xs">
         Copyright &copy; <span>{year}</span> by Roman Druzhinin. All rights
         reserved.
