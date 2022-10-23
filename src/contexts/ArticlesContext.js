@@ -113,13 +113,13 @@ function ArticlesProvider({ children }) {
   }
 
   function addLike(uid) {
-    const likeListRef = ref(db, `articles/${curOpenArticleId}/likes`);
-    return set(likeListRef, { [uid]: true });
+    const likeListRef = ref(db, `articles/${curOpenArticleId}/likes/${uid}`);
+    return set(likeListRef, true);
   }
 
   function unlike(uid) {
-    const likeListRef = ref(db, `articles/${curOpenArticleId}/likes`);
-    return set(likeListRef, { [uid]: null });
+    const likeListRef = ref(db, `articles/${curOpenArticleId}/likes/${uid}`);
+    return set(likeListRef, null);
   }
 
   const value = {
