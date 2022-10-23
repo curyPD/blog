@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../contexts/AuthContext";
 
@@ -8,6 +8,7 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import GoogleAuthButton from "../components/GoogleAuthButton";
 
 import Button from "../components/Button";
+import { useArticles } from "../contexts/ArticlesContext";
 
 export default function LogIn() {
   const [inputData, setInputData] = useState({
@@ -16,6 +17,8 @@ export default function LogIn() {
   });
   const [error, setError] = useState("");
   const { logIn, signInWithGoogle } = useAuth();
+  const navigate = useNavigate();
+  const { curOpenArticleId } = useArticles();
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -36,6 +39,7 @@ export default function LogIn() {
     try {
       setError("");
       await logIn(inputData.email, inputData.password);
+      navigate(`/articles/${curOpenArticleId}`);
     } catch (err) {
       setError("Failed to log in");
       console.error(err.message);
@@ -46,6 +50,7 @@ export default function LogIn() {
     try {
       setError("");
       await signInWithGoogle();
+      navigate(`/articles/${curOpenArticleId}`);
     } catch (error) {
       setError("Failed to sign in");
       console.error(error);
