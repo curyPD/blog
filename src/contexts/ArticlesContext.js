@@ -29,7 +29,6 @@ function ArticlesProvider({ children }) {
     return onChildAdded(ref(db, "articles"), (data) => {
       const { key } = data;
       const val = data.val();
-      // console.log(key, val);
       setArticles((prevArticles) => {
         return [
           {
@@ -46,7 +45,6 @@ function ArticlesProvider({ children }) {
     return onChildChanged(ref(db, "articles"), (data) => {
       const { key } = data;
       const val = data.val();
-      // console.log(key, val);
       setArticles((prevArticles) => {
         return prevArticles.map((article) =>
           article.key === key ? { key, ...val } : article
@@ -60,7 +58,6 @@ function ArticlesProvider({ children }) {
     return onChildRemoved(ref(db, "articles"), (data) => {
       const { key } = data;
       const val = data.val();
-      // console.log(key, val);
       setArticles((prevArticles) => {
         return prevArticles.filter((article) => article.key !== key);
       });
@@ -77,7 +74,6 @@ function ArticlesProvider({ children }) {
     return onChildAdded(ref(db, `comments/${curOpenArticleId}`), (data) => {
       const { key } = data;
       const val = data.val();
-      // console.log(key, val);
       setComments((prevComments) => {
         return [{ key, ...val }, ...prevComments];
       });
@@ -105,7 +101,6 @@ function ArticlesProvider({ children }) {
   }
 
   function addComment(author, profilePicture, uid, comment, date) {
-    // console.log(author, profilePicture, comment, date, curOpenArticleId);
     const newCommentRef = push(ref(db, `comments/${curOpenArticleId}`));
     const commentData = {
       content: comment,
@@ -118,13 +113,11 @@ function ArticlesProvider({ children }) {
   }
 
   function addLike(uid) {
-    // console.log(uid, curOpenArticleId);
     const likeListRef = ref(db, `articles/${curOpenArticleId}/likes`);
     return set(likeListRef, { [uid]: true });
   }
 
-  function dislike(uid) {
-    // console.log(uid, curOpenArticleId);
+  function unlike(uid) {
     const likeListRef = ref(db, `articles/${curOpenArticleId}/likes`);
     return set(likeListRef, { [uid]: null });
   }
@@ -143,7 +136,7 @@ function ArticlesProvider({ children }) {
     setCurOpenArticleId,
     curOpenArticleId,
     addLike,
-    dislike,
+    unlike,
   };
 
   return (

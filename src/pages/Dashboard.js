@@ -9,6 +9,7 @@ import Button from "../components/Button";
 import TdButton from "../components/TdButton";
 
 import { useArticles } from "../contexts/ArticlesContext";
+import { useAuth } from "../contexts/AuthContext";
 
 import {
   HiOutlinePhotograph,
@@ -18,6 +19,7 @@ import {
   HiOutlineX,
   HiOutlineExclamation,
 } from "react-icons/hi";
+import { RiLoader2Line } from "react-icons/ri";
 
 import { app } from "../firebase";
 import {
@@ -56,6 +58,8 @@ function Dashboard() {
     setPostIdToDelete,
     deleteArticle,
   } = useArticles();
+
+  const { curUser } = useAuth();
 
   useEffect(() => {
     setTrHeight(trRef.current?.offsetHeight);
@@ -231,7 +235,11 @@ function Dashboard() {
     );
   });
 
-  return (
+  return curUser === "initialization" ? (
+    <div className="absolute top-1/2 left-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center">
+      <RiLoader2Line className="animate-spin text-6xl text-blue-400" />
+    </div>
+  ) : (
     <>
       {overlayShown && (
         <div

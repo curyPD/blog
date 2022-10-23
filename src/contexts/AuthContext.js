@@ -10,10 +10,12 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
+import { getDatabase, ref, set, onValue } from "firebase/database";
 import { app } from "../firebase";
 
 const provider = new GoogleAuthProvider();
 const auth = getAuth(app);
+const db = getDatabase(app);
 
 const AuthContext = React.createContext();
 
@@ -26,7 +28,29 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     return onAuthStateChanged(auth, (user) => {
-      setCurUser(user);
+      if (!user) return setCurUser(user);
+
+      const { uid } = user;
+      const userRef = ref(db, `users/${uid}`);
+      onValue(
+        userRef,
+        async (snapshot) => {
+          if (snapshot.exists()) return setCurUser(snapshot.val());
+
+          const userData = {
+            displayName: user.displayName,
+            email: user.email,
+            uid: user.uid,
+            photoURL: user.photoURL,
+            role: {
+              subscriber: true,
+            },
+          };
+          await set(userRef, userData);
+          return setCurUser(userData);
+        },
+        { onlyOnce: true }
+      );
     });
   }, []);
 
