@@ -129,8 +129,6 @@ function Dashboard() {
       image,
       content,
       upload: now,
-      likeCount: 0,
-      liked: {},
     });
     init();
     postsSectionRef.current.scrollIntoView({ behavior: "smooth" });
