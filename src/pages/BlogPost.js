@@ -156,7 +156,7 @@ function BlogPost() {
             </form>
           )}
           {comments.length !== 0 && (
-            <div className="mt-11 sm:mt-14">
+            <div className="mt-11 sm:mt-14 md:mt-16 xl:mt-20">
               <h4 className="mb-6 font-serif text-base font-medium text-gray-700 sm:mb-7 sm:text-lg md:mb-9 md:text-xl xl:text-2xl">
                 Comments
               </h4>
