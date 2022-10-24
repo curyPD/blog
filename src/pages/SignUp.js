@@ -73,7 +73,7 @@ function SignUp() {
     <section className="px-4 py-8 pb-14 sm:pt-16 lg:py-20">
       <form
         onSubmit={handleSubmit}
-        className="mx-auto mb-3 max-w-xs rounded-md bg-white px-5 py-5 shadow-md sm:max-w-sm md:mb-4 lg:max-w-md lg:px-8 lg:py-6 lg:pt-9"
+        className="mx-auto mb-3 max-w-xs rounded-md bg-white px-5 py-5 shadow-md sm:max-w-sm md:mb-4 lg:max-w-md lg:px-8 lg:py-6 lg:pt-7"
       >
         <h3 className="mb-4 font-sans text-lg font-semibold text-gray-800 md:text-xl lg:mb-6 lg:text-2xl">
           Sign Up
@@ -151,12 +151,12 @@ function SignUp() {
 
         {error && (
           <div className="flex items-center gap-2 text-red-600">
-            <HiOutlineExclamationCircle className="text-base" />
-            <p className="font-sans text-xs">{error}</p>
+            <HiOutlineExclamationCircle className="text-base md:text-lg" />
+            <p className="font-sans text-xs md:text-sm">{error}</p>
           </div>
         )}
 
-        <div className={error ? "mt-4" : "mt-6"}>
+        <div className={error ? "mt-4 md:mt-5" : "mt-6"}>
           <Button type="submit" text="sign up" />
         </div>
       </form>
