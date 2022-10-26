@@ -116,7 +116,7 @@ function BlogPost() {
               }
               className={`rounded-full focus:outline-none focus-visible:ring focus-visible:ring-offset-1 ${
                 !curUser
-                  ? "relative after:pointer-events-none after:invisible after:absolute after:top-1/2 after:left-full after:w-28 after:translate-x-1 after:rounded after:border after:border-gray-200 after:bg-gray-800/80 after:p-1 after:text-center after:text-[10px] after:text-white after:opacity-0 after:shadow-sm after:transition-all after:content-['Log_in_to_leave_a_like'] hover:after:visible hover:after:-translate-y-1/2 hover:after:opacity-100"
+                  ? "relative after:pointer-events-none after:invisible after:absolute after:top-1/2 after:right-full after:w-28 after:-translate-x-1 after:rounded after:border after:border-gray-200 after:bg-gray-800/80 after:p-1 after:text-center after:text-[10px] after:text-white after:opacity-0 after:shadow-sm after:transition-all after:content-['Log_in_to_leave_a_like'] hover:after:visible hover:after:-translate-y-1/2 hover:after:opacity-100 sm:after:left-full sm:after:translate-x-1"
                   : ""
               }`}
             >
