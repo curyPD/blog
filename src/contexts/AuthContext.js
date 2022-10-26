@@ -75,10 +75,9 @@ function AuthProvider({ children }) {
   }
 
   function resetPassword(email) {
-    return sendPasswordResetEmail(auth, email);
-    // TODO:
-    // When deployed, pass the continue URL parameter to the function.
-    // Url probably should lead to Log In page.
+    return sendPasswordResetEmail(auth, email, {
+      url: "https://polyglotdream.netlify.app",
+    });
   }
 
   const value = {
