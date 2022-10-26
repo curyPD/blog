@@ -21,10 +21,10 @@ function Comment({ author, profilePicture, upload, content }) {
           <HiOutlineUser className="text-xl text-blue-400 md:text-2xl xl:text-3xl" />
         </div>
       )}
-      <p className="font-sans text-sm font-medium text-gray-700 md:text-base xl:text-lg">
+      <p className="font-sans text-xs font-semibold text-gray-700 md:text-sm xl:text-base">
         {author}
       </p>
-      <p className="font-sans text-xs text-gray-500 md:text-sm xl:text-base">
+      <p className="font-sans text-xs text-gray-600 md:text-sm xl:text-base">
         {content}
       </p>
       <p className="justify-self-end font-sans text-[10px] text-gray-400/60 md:text-xs xl:text-sm">
