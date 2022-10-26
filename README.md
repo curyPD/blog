@@ -1,18 +1,11 @@
-# Blog website
+# Polyglot Dream✨ blog website
 
-This is my first attempt at putting together a full-stack application (React + Firebase).
-I'm not very serious about blogging for now, this is more of a practice project.
-The site lacks several features I was initially planning on implementing, so I'm going to keep working on it.
+This website is my first attempt at creating a full-stack web application (without having to write a single line of backend code🙂). Stack: React + Firebase + TailwindCSS.
 
-### Features yet to add:
+## Features
 
-- Google auth😎 ---------------------------------------> ✅
-- Leaving likes under posts💚 -------------------------> ✅
-- Writing comments✉ ----------------------------------> ✅
-- Editing posts (for admin)📝 -------------------------> ✅
-- Deleting posts (for admin)🚮 ------------------------> ✅
-- Improve existing features👷‍♂️ -------------------------> ✅
-- Optimize for bigger screens💻 -----------------------> ✅
-- Store users in db as well (for role based access)👥 --> ✅
-
-The blog is about language learning, by the way
+- Email+Password and Google sign-in options
+- Leaving likes and comments under posts for authenticated users
+- Admin dashboard for viewing, creating, editing and deleting posts
+- Firebase Realtime Database is used to store all post data and user roles
+- Post images are stored in Cloud Storage for Firebase

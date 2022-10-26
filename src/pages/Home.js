@@ -9,7 +9,7 @@ import SecondaryHeading from "../components/SecondaryHeading";
 function Home() {
   const { articles, setCurOpenArticleId } = useArticles();
 
-  useEffect(() => setCurOpenArticleId(""), []);
+  useEffect(() => setCurOpenArticleId(""), [setCurOpenArticleId]);
 
   const articleCards = articles.map((article) => (
     <ArticleCard

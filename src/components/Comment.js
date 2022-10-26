@@ -1,5 +1,5 @@
 import React from "react";
-import { HiOutlineUserCircle, HiOutlineUser } from "react-icons/hi";
+import { HiOutlineUser } from "react-icons/hi";
 
 function Comment({ author, profilePicture, upload, content }) {
   const date = new Date(upload);
