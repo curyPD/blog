@@ -10,7 +10,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { getDatabase, ref, set, onValue, get } from "firebase/database";
+import { getDatabase, ref, set, get } from "firebase/database";
 import { app } from "../firebase";
 
 const provider = new GoogleAuthProvider();

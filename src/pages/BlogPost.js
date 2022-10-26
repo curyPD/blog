@@ -21,7 +21,7 @@ function BlogPost() {
 
   useEffect(() => {
     setCurOpenArticleId(articleId);
-  }, [articleId]);
+  }, [articleId, setCurOpenArticleId]);
 
   const curArticle = articles.find((article) => article.key === articleId);
 

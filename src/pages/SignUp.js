@@ -18,7 +18,7 @@ function SignUp() {
     confirmPassword: "",
   });
   const [error, setError] = useState("");
-  const { signUp, updateUserName, signInWithGoogle, setCurUser } = useAuth();
+  const { signUp, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
   const { curOpenArticleId } = useArticles();
 

@@ -57,7 +57,6 @@ function ArticlesProvider({ children }) {
   useEffect(() => {
     return onChildRemoved(ref(db, "articles"), (data) => {
       const { key } = data;
-      const val = data.val();
       setArticles((prevArticles) => {
         return prevArticles.filter((article) => article.key !== key);
       });
