@@ -10,7 +10,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { getDatabase, ref, set, onValue } from "firebase/database";
+import { getDatabase, ref, set, onValue, get } from "firebase/database";
 import { app } from "../firebase";
 
 const provider = new GoogleAuthProvider();
@@ -27,30 +27,15 @@ function AuthProvider({ children }) {
   const [curUser, setCurUser] = useState("initialization");
 
   useEffect(() => {
-    return onAuthStateChanged(auth, (user) => {
+    return onAuthStateChanged(auth, async (user) => {
       if (!user) return setCurUser(user);
-
-      const { uid } = user;
-      const userRef = ref(db, `users/${uid}`);
-      onValue(
-        userRef,
-        async (snapshot) => {
-          if (snapshot.exists()) return setCurUser(snapshot.val());
-
-          const userData = {
-            displayName: user.displayName,
-            email: user.email,
-            uid: user.uid,
-            photoURL: user.photoURL,
-            role: {
-              subscriber: true,
-            },
-          };
-          await set(userRef, userData);
-          return setCurUser(userData);
-        },
-        { onlyOnce: true }
-      );
+      const userRef = ref(db, `users/${user.uid}`);
+      const snapshot = await get(userRef);
+      if (!snapshot.exists()) {
+        await set(userRef, { role: { subscriber: true } });
+        return setCurUser({ ...user, role: { subscriber: true } });
+      }
+      setCurUser({ ...user, role: snapshot.val().role });
     });
   }, []);
 
@@ -58,8 +43,21 @@ function AuthProvider({ children }) {
     return signInWithPopup(auth, provider);
   }
 
-  function signUp(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password);
+  async function signUp(email, password, name) {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const { user } = userCredential;
+      await updateUserName(user, name);
+      const userRef = ref(db, `users/${user.uid}`);
+      await set(userRef, { role: { subscriber: true } });
+      setCurUser({ ...user, role: { subscriber: true }, displayName: name });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   function logIn(email, password) {
@@ -91,6 +89,7 @@ function AuthProvider({ children }) {
     updateUserName,
     resetPassword,
     signInWithGoogle,
+    auth,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -18,7 +18,7 @@ function SignUp() {
     confirmPassword: "",
   });
   const [error, setError] = useState("");
-  const { signUp, updateUserName, signInWithGoogle } = useAuth();
+  const { signUp, updateUserName, signInWithGoogle, setCurUser } = useAuth();
   const navigate = useNavigate();
   const { curOpenArticleId } = useArticles();
 
@@ -49,8 +49,7 @@ function SignUp() {
     }
     try {
       setError("");
-      const userCredential = await signUp(inputData.email, inputData.password);
-      await updateUserName(userCredential.user, inputData.userName);
+      await signUp(inputData.email, inputData.password, inputData.userName);
       navigate(`/articles/${curOpenArticleId}`);
     } catch (err) {
       setError("Failed to sign up");
