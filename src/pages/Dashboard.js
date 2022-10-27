@@ -66,7 +66,6 @@ function Dashboard() {
   }, [trImageLoaded]);
 
   useEffect(() => {
-    // console.log(editedArticleId);
     if (!editedArticleId) {
       init();
     } else {
@@ -75,12 +74,11 @@ function Dashboard() {
       );
       setTitle(editedArticle.title);
       setImage({ ...editedArticle.image });
-      editorRef.current.setContent(editedArticle.content);
+      editorRef.current?.setContent(editedArticle.content);
     }
   }, [editedArticleId, articles]);
 
   function uploadImage(file) {
-    // console.log(file);
     if (!file) return;
     const storageRef = storage_ref(storage, `/files/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
