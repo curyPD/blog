@@ -63,7 +63,7 @@ function Dashboard() {
     setImage({});
     editorRef.current?.setContent("");
     setEditedArticleId("");
-  }, [editorRef.current, setEditedArticleId]);
+  }, [setEditedArticleId]);
 
   useEffect(() => {
     if (!editedArticleId) {
