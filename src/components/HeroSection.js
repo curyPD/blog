@@ -15,7 +15,7 @@ function HeroSection({ sText, hText, pText, buttonText, clickHandler }) {
         </p>
         <button
           onClick={clickHandler}
-          className="rounded p-1 text-xs font-semibold text-blue-500 transition-colors hover:bg-blue-100/50 sm:text-sm md:text-base"
+          className="rounded p-1 text-xs font-semibold text-blue-500 transition-colors hover:bg-blue-100/50 sm:text-sm xl:text-base"
         >
           {buttonText}
         </button>

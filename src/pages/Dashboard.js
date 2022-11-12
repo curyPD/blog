@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 import SecondaryHeading from "../components/SecondaryHeading";
 import QuaternaryHeading from "../components/QuaternaryHeading";
@@ -45,6 +45,13 @@ function Dashboard() {
   const workshopSectionRef = useRef(null);
   const postsSectionRef = useRef(null);
 
+  const init = useCallback(() => {
+    setTitle("");
+    setImage({});
+    editorRef.current?.setContent("");
+    setEditedArticleId("");
+  }, [editorRef.current]);
+
   const {
     uploadArticle,
     updateArticle,
@@ -69,11 +76,11 @@ function Dashboard() {
       setImage({ ...editedArticle.image });
       editorRef.current?.setContent(editedArticle.content);
     }
-  }, [editedArticleId, articles]);
+  }, [editedArticleId, articles, init]);
 
   useEffect(() => {
     init();
-  }, []);
+  }, [init]);
 
   function uploadImage(file) {
     if (!file) return;
@@ -162,13 +169,6 @@ function Dashboard() {
   function scrollToWorkshop() {
     if (workshopSectionRef?.current)
       workshopSectionRef.current.scrollIntoView({ behavior: "smooth" });
-  }
-
-  function init() {
-    setTitle("");
-    setImage({});
-    editorRef.current?.setContent("");
-    setEditedArticleId("");
   }
 
   function showPopup(i) {

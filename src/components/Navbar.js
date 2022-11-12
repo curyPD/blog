@@ -21,8 +21,8 @@ function Navbar() {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "flex items-center border-b border-blue-500 px-2 font-sans text-sm font-normal text-blue-500 hover:border-gray-600 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus-visible:border-gray-600 lg:text-base 2xl:text-lg"
-              : "flex items-center border-b border-transparent px-2 font-sans text-sm font-normal text-gray-600 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus-visible:border-gray-600 lg:text-base 2xl:text-lg"
+              ? "flex items-center border-b border-blue-500 px-2 font-sans text-sm font-medium text-blue-600 hover:border-gray-600 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus-visible:border-gray-600 xl:text-base"
+              : "flex items-center border-b border-transparent px-2 font-sans text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus-visible:border-gray-600 xl:text-base"
           }
           to="/"
         >
@@ -33,8 +33,8 @@ function Navbar() {
           <NavLink
             className={({ isActive }) =>
               isActive
-                ? "flex items-center border-b border-blue-500 px-2 font-sans text-sm font-normal text-blue-500 hover:border-gray-600 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus-visible:border-gray-600 lg:text-base 2xl:text-lg"
-                : "flex items-center border-b border-transparent px-2 font-sans text-sm font-normal text-gray-600 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus-visible:border-gray-600 lg:text-base 2xl:text-lg"
+                ? "flex items-center border-b border-blue-500 px-2 font-sans text-sm font-medium text-blue-600 hover:border-gray-600 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus-visible:border-gray-600 xl:text-base"
+                : "flex items-center border-b border-transparent px-2 font-sans text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus-visible:border-gray-600 xl:text-base"
             }
             to="/dashboard"
           >
@@ -43,7 +43,7 @@ function Navbar() {
         )}
         {curUser ? (
           <button
-            className="flex items-center border-b border-transparent px-2 font-sans text-sm font-normal text-gray-600 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus-visible:border-gray-600 lg:text-base 2xl:text-lg"
+            className="flex items-center border-b border-transparent px-2 font-sans text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus-visible:border-gray-600 xl:text-base"
             onClick={logOut}
           >
             <span>Log Out</span>
@@ -52,8 +52,8 @@ function Navbar() {
           <NavLink
             className={({ isActive }) =>
               isActive
-                ? "flex items-center border-b border-blue-500 px-2 font-sans text-sm font-normal text-blue-500 hover:border-gray-600 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus-visible:border-gray-600 lg:text-base 2xl:text-lg"
-                : "flex items-center border-b border-transparent px-2 font-sans text-sm font-normal text-gray-600 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus-visible:border-gray-600 lg:text-base 2xl:text-lg"
+                ? "flex items-center border-b border-blue-500 px-2 font-sans text-sm font-medium text-blue-600 hover:border-gray-600 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus-visible:border-gray-600 xl:text-base"
+                : "flex items-center border-b border-transparent px-2 font-sans text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus-visible:border-gray-600 xl:text-base"
             }
             to="/login"
           >
@@ -84,7 +84,7 @@ function Navbar() {
               <NavLink
                 className={({ isActive }) =>
                   isActive
-                    ? "border-l-2 border-transparent pl-2 font-serif text-base font-medium text-blue-500 focus:outline-none focus-visible:border-blue-500"
+                    ? "border-l-2 border-transparent pl-2 font-serif text-base font-medium text-blue-600 focus:outline-none focus-visible:border-blue-500"
                     : "border-l-2 border-transparent pl-2 font-serif text-base font-medium text-gray-600 focus:outline-none focus-visible:border-blue-500"
                 }
                 to="/"
@@ -95,7 +95,7 @@ function Navbar() {
                 <NavLink
                   className={({ isActive }) =>
                     isActive
-                      ? "border-l-2 border-transparent pl-2 font-serif text-base font-medium text-blue-500 focus:outline-none focus-visible:border-blue-500"
+                      ? "border-l-2 border-transparent pl-2 font-serif text-base font-medium text-blue-600 focus:outline-none focus-visible:border-blue-500"
                       : "border-l-2 border-transparent pl-2 font-serif text-base font-medium text-gray-600 focus:outline-none focus-visible:border-blue-500"
                   }
                   to="/dashboard"
@@ -114,7 +114,7 @@ function Navbar() {
                 <NavLink
                   className={({ isActive }) =>
                     isActive
-                      ? "border-l-2 border-transparent pl-2 font-serif text-base font-medium text-blue-500 focus:outline-none focus-visible:border-blue-500"
+                      ? "border-l-2 border-transparent pl-2 font-serif text-base font-medium text-blue-600 focus:outline-none focus-visible:border-blue-500"
                       : "border-l-2 border-transparent pl-2 font-serif text-base font-medium text-gray-600 focus:outline-none focus-visible:border-blue-500"
                   }
                   to="/login"

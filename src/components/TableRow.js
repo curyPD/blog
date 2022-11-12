@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import TdButton from "./TdButton";
 
 function TableRow(props) {
@@ -19,7 +19,7 @@ function TableRow(props) {
           onLoad={loadHandler}
         />
       </td>
-      <td className="py-2 px-3 font-serif text-xs font-medium text-gray-600 md:py-3 md:px-4 md:text-sm lg:py-3 lg:px-5 lg:text-base xl:px-6 xl:text-lg">
+      <td className="py-2 px-3 font-serif text-xs font-medium text-gray-700 md:py-3 md:px-4 md:text-sm lg:py-3 lg:px-5 lg:text-base xl:px-6 xl:text-lg">
         {props.title}
       </td>
       <td className="py-2 px-3 text-[10px] font-normal text-gray-400 md:py-3 md:px-4 md:text-xs lg:py-3 lg:px-5 lg:text-sm xl:px-6 xl:text-base">
