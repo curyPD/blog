@@ -45,13 +45,6 @@ function Dashboard() {
   const workshopSectionRef = useRef(null);
   const postsSectionRef = useRef(null);
 
-  const init = useCallback(() => {
-    setTitle("");
-    setImage({});
-    editorRef.current?.setContent("");
-    setEditedArticleId("");
-  }, [editorRef.current]);
-
   const {
     uploadArticle,
     updateArticle,
@@ -64,6 +57,13 @@ function Dashboard() {
   } = useArticles();
 
   const { curUser } = useAuth();
+
+  const init = useCallback(() => {
+    setTitle("");
+    setImage({});
+    editorRef.current?.setContent("");
+    setEditedArticleId("");
+  }, [editorRef.current, setEditedArticleId]);
 
   useEffect(() => {
     if (!editedArticleId) {
