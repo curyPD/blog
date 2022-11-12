@@ -21,7 +21,7 @@ function ArticleCard(props) {
       </Link>
       <div className="flex h-full flex-col p-5 pt-6 sm:p-7">
         <Link to={`/articles/${props.id}`} className="focus:outline-none">
-          <h3 className="mb-3 font-serif text-lg font-semibold leading-tight text-gray-700 sm:mb-4 sm:text-xl lg:mb-5 lg:text-2xl">
+          <h3 className="mb-3 font-serif text-lg font-semibold leading-tight text-gray-700 sm:mb-4 sm:text-xl lg:mb-5 lg:text-2xl lg:leading-tight">
             {props.title}
           </h3>
         </Link>

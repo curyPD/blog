@@ -1,15 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 import { useArticles } from "../contexts/ArticlesContext";
 
 import ArticleCard from "../components/ArticleCard";
-import PrimaryHeading from "../components/PrimaryHeading";
+import HeroSection from "../components/HeroSection";
 import SecondaryHeading from "../components/SecondaryHeading";
 
 function Home() {
   const { articles, setCurOpenArticleId } = useArticles();
 
+  const postsSectionRef = useRef(null);
+
   useEffect(() => setCurOpenArticleId(""), [setCurOpenArticleId]);
+
+  function scrollToPosts() {
+    if (postsSectionRef?.current)
+      postsSectionRef.current.scrollIntoView({ behavior: "smooth" });
+  }
 
   const articleCards = articles.map((article) => (
     <ArticleCard
@@ -24,14 +31,18 @@ function Home() {
 
   return (
     <>
-      <section className="pb-16 pt-12 sm:pt-14 xl:pt-20 xl:pb-20 2xl:pt-24 2xl:pb-24">
-        <div className="2xl:mx-auto 2xl:max-w-screen-2xl">
-          <PrimaryHeading text="Hop on, it's time to learn a foreign language." />
-        </div>
-      </section>
+      <HeroSection
+        sText="polyglot dream"
+        hText="Hop on, it's time to learn a foreign language."
+        pText="Hi, my name is Roman. Here I share what I know about language
+        learning. Once a year 😗."
+        buttonText="Jump to articles"
+        clickHandler={scrollToPosts}
+      />
       <section
         className="bg-white pt-8 pb-20 md:pt-11 lg:pt-20 lg:pb-24 xl:pb-32 2xl:pb-36"
         id="articles"
+        ref={postsSectionRef}
       >
         <SecondaryHeading sText="articles" hText="Find something interesting" />
         <div className="container mx-auto grid grid-cols-1 justify-items-center gap-x-7 gap-y-9 px-4 sm:gap-y-11 md:grid-cols-2 md:justify-items-stretch md:px-7 lg:gap-x-14 lg:gap-y-16 xl:max-w-screen-xl xl:grid-cols-3 xl:gap-y-20">
