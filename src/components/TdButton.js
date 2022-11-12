@@ -8,6 +8,7 @@ function TdButton(props) {
       (props.arrLength - props.index) * props.trHeight
     }px)`,
   };
+  console.log(props.trHeight);
 
   return (
     <>
