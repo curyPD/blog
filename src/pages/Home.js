@@ -35,7 +35,7 @@ function Home() {
         sText="polyglot dream"
         hText="Hop on, it's time to learn a foreign language."
         pText="Hi, my name is Roman. Here I share what I know about language
-        learning. Once a year 😗."
+        learning. Once a year 🥱."
         buttonText="Jump to articles"
         clickHandler={scrollToPosts}
       />

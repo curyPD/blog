@@ -6,7 +6,7 @@ function SecondaryHeading({ hText, sText }) {
       <span className="font-sans text-[10px] font-bold uppercase tracking-widest text-blue-400 sm:text-xs lg:text-sm lg:font-extrabold">
         {sText}
       </span>
-      <h2 className="font-serif text-xl font-medium text-gray-700 sm:text-2xl lg:text-3xl">
+      <h2 className="font-serif text-xl font-semibold text-gray-700 sm:text-2xl lg:text-3xl">
         {hText}
       </h2>
     </div>
