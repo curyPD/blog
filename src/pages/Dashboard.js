@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import PrimaryHeading from "../components/PrimaryHeading";
 import SecondaryHeading from "../components/SecondaryHeading";
 import QuaternaryHeading from "../components/QuaternaryHeading";
 
@@ -30,6 +29,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { useEffect } from "react";
+import HeroSection from "../components/HeroSection";
 
 const storage = getStorage(app);
 
@@ -162,6 +162,11 @@ function Dashboard() {
     }
   }
 
+  function scrollToWorkshop() {
+    if (workshopSectionRef?.current)
+      workshopSectionRef.current.scrollIntoView({ behavior: "smooth" });
+  }
+
   function init() {
     setTitle("");
     setImage({});
@@ -287,9 +292,13 @@ function Dashboard() {
         </>
       )}
 
-      <section className="pb-16 pt-12 sm:pt-14 xl:pt-20 xl:pb-20 2xl:pt-24 2xl:pb-24">
-        <PrimaryHeading text="It's time to share knowledge with the world." />
-      </section>
+      <HeroSection
+        sText="polyglot dream"
+        hText="It's time to share knowledge with the world."
+        pText="Make sure to change it when you can think of a more cliched title."
+        buttonText="Get to work"
+        clickHandler={scrollToWorkshop}
+      />
 
       <section
         ref={postsSectionRef}

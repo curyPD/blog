@@ -85,7 +85,7 @@ function BlogPost() {
     <>
       <section className="bg-white pt-9 pb-7 md:pt-12 md:pb-9 lg:pt-16 xl:py-20 xl:pb-16">
         <div className="mx-auto w-11/12 max-w-lg px-5 sm:max-w-xl md:w-full lg:max-w-2xl xl:max-w-3xl">
-          <h1 className="mb-8 font-serif text-3xl font-medium text-gray-700 lg:text-4xl xl:mb-10 xl:text-5xl xl:leading-[1.1]">
+          <h1 className="mb-8 font-serif text-3xl font-semibold text-gray-800 lg:text-4xl xl:mb-10 xl:text-5xl xl:leading-[1.1]">
             {curArticle.title}
           </h1>
 
