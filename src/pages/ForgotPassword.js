@@ -38,12 +38,12 @@ function ForgotPassword() {
   }
 
   return (
-    <section className="px-4 py-8 pb-14 sm:pt-16 lg:py-20">
+    <section className="bg-gradient-to-b from-blue-50/70 px-4 py-8 pb-14 sm:pt-16 lg:py-20">
       <form
         onSubmit={handleSubmit}
-        className="mx-auto mb-3 max-w-xs rounded-md bg-white px-5 py-5 shadow-md sm:max-w-sm md:mb-4 lg:max-w-md lg:px-8 lg:py-6 lg:pt-7"
+        className="mx-auto mb-3 max-w-xs rounded-md bg-white px-5 py-5 shadow-md sm:max-w-sm md:mb-4 lg:max-w-md lg:px-10 lg:py-7 lg:pt-9"
       >
-        <h3 className="mb-4 font-sans text-lg font-semibold text-gray-800 md:text-xl lg:mb-6 lg:text-2xl">
+        <h3 className="mb-4 font-serif text-lg font-semibold text-gray-700 md:text-xl lg:mb-8 lg:text-3xl">
           Reset Password
         </h3>
 
